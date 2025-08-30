@@ -1,0 +1,193 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Glassmorphism Style */
+.glass-header, .glass-sidebar, .card, .project-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+}
+
+/* Header */
+.glass-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 40px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  transition: all 0.4s ease;
+  height: 80px;
+  line-height: 80px;
+}
+
+.glass-header .logo {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.glass-header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+}
+
+.glass-header nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Estado ao rolar */
+.glass-header.scrolled {
+  background: rgba(20, 20, 20, 0.45);
+  backdrop-filter: blur(30px);
+  height: 60px;
+  line-height: 60px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+}
+
+/* Sidebar */
+.glass-sidebar {
+  width: 220px;
+  padding: 20px;
+  margin-top: 80px;
+  margin-left: 20px;
+  height: calc(100vh - 100px);
+}
+
+/* Content */
+.content {
+  margin-top: 100px;
+  margin-left: 260px;
+  padding: 20px;
+  flex: 1;
+}
+
+.content h2 {
+  margin: 20px 0;
+}
+
+/* Carousel */
+.carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  width: 250px;
+  padding: 16px;
+  text-align: center;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  cursor: pointer;
+  transform: translateY(0);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+/* Projects Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  transform: scale(1);
+}
+
+/* ===== Animações Apple Vision Style ===== */
+
+/* Transição padrão */
+* {
+  transition: all 0.3s ease;
+}
+
+/* Hover nos cards de tradutores */
+.card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Hover nos projetos */
+.project-card:hover {
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.2);
+  box-shadow: 0 4px 25px rgba(0,0,0,0.3);
+}
+
+/* Animação de entrada suave */
+.content h2 {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+/* Keyframes - fade in para elementos */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Long Content */
+.long-content {
+  margin-top: 40px;
+}
+
+.long-content h2 {
+  margin-bottom: 20px;
+}
+
+.long-content .grid {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+/* ===== Lazy Fade-In ===== */
+.fade-item {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-item.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
