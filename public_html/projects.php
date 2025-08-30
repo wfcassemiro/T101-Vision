@@ -1,13 +1,11 @@
 <?php
 session_start();
-require_once 'config/database.php';
-require_once 'config/dash_database.php';
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/config/dash_database.php';
 
 // Page settings
 $page_title = 'Projetos';
 $page_description = 'Crie e gerencie seus projetos.';
-$active_page = 'projects';
-$hide_top_menu = true;
 
 // Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
@@ -156,59 +154,56 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
     $stmt->execute([$_GET['edit'], $user_id]);
     $edit_project = $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+include __DIR__ . '/vision/includes/head.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<?php include 'includes/head.php'; ?>
-<body class="bg-gray-950 text-white font-inter">
-<div class="flex min-h-screen">
+<?php include __DIR__ . '/vision/includes/header.php'; ?>
 
-    <!-- Sidebar -->
-    <?php include 'sidebar.php'; ?>
+<?php include __DIR__ . '/vision/includes/sidebar.php'; ?>
 
-    <!-- Main Content -->
-    <div class="flex-1 px-4 py-8 bg-gray-950">
-        <div class="max-w-7xl mx-auto">
-            <h1 class="text-4xl font-bold mb-2">Gerenciar Projetos</h1>
-            <p class="text-gray-400 mb-8">Crie e acompanhe seus projetos de tradução.</p>
+<main class="main-content">
+    <!-- Hero Section -->
+    <section class="glass-hero">
+        <h1>📁 Gerenciar Projetos</h1>
+        <p>Crie e acompanhe seus projetos de tradução de forma organizada e profissional.</p>
+    </section>
 
     <!-- Mensagens -->
     <?php if ($message): ?>
-        <div class="bg-green-600 text-white p-4 rounded-lg mb-6">
-            <?php echo htmlspecialchars($message); ?>
+        <div class="alert-success">
+            <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message); ?>
         </div>
     <?php endif; ?>
 
     <?php if ($error): ?>
-        <div class="bg-red-600 text-white p-4 rounded-lg mb-6">
-            <?php echo htmlspecialchars($error); ?>
+        <div class="alert-error">
+            <i class="fas fa-exclamation-triangle"></i> <?php echo htmlspecialchars($error); ?>
         </div>
     <?php endif; ?>
 
     <!-- Formulário de Adicionar/Editar Projeto -->
-    <div class="bg-gray-900 rounded-lg p-6 mb-8">
-        <h2 class="text-xl font-semibold text-white mb-4">
+    <div class="vision-form">
+        <h2 style="font-size: 1.3rem; margin-bottom: 25px;">
+            <i class="fas fa-<?php echo $edit_project ? 'edit' : 'plus'; ?>"></i>
             <?php echo $edit_project ? 'Editar Projeto' : 'Adicionar Novo Projeto'; ?>
         </h2>
         
-        <form method="POST" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <form method="POST" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
             <input type="hidden" name="action" value="<?php echo $edit_project ? 'edit_project' : 'add_project'; ?>">
             <?php if ($edit_project): ?>
                 <input type="hidden" name="project_id" value="<?php echo $edit_project['id']; ?>">
             <?php endif; ?>
             
-            <div class="lg:col-span-2">
-                <label for="project_name" class="block text-sm font-medium text-gray-300 mb-2">Nome do Projeto *</label>
+            <div style="grid-column: span 2;">
+                <label for="project_name">Nome do Projeto *</label>
                 <input type="text" name="project_name" id="project_name" required
-                       value="<?php echo htmlspecialchars($edit_project['project_name'] ?? ''); ?>"
-                       class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                       value="<?php echo htmlspecialchars($edit_project['project_name'] ?? ''); ?>">
             </div>
             
             <div>
-                <label for="client_id" class="block text-sm font-medium text-gray-300 mb-2">Cliente *</label>
-                <select name="client_id" id="client_id" required
-                        class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                <label for="client_id">Cliente *</label>
+                <select name="client_id" id="client_id" required>
                     <option value="">Selecione um cliente</option>
                     <?php foreach ($clients as $client): ?>
                         <option value="<?php echo $client['id']; ?>" 
@@ -220,9 +215,8 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
             </div>
             
             <div>
-                <label for="source_language" class="block text-sm font-medium text-gray-300 mb-2">Idioma de Origem *</label>
-                <select name="source_language" id="source_language" required
-                        class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                <label for="source_language">Idioma de Origem *</label>
+                <select name="source_language" id="source_language" required>
                     <option value="">Selecione</option>
                     <option value="pt-BR" <?php echo ($edit_project && $edit_project['source_language'] == 'pt-BR') ? 'selected' : ''; ?>>Português (Brasil)</option>
                     <option value="en-US" <?php echo ($edit_project && $edit_project['source_language'] == 'en-US') ? 'selected' : ''; ?>>Inglês (EUA)</option>
@@ -234,9 +228,8 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
             </div>
             
             <div>
-                <label for="target_language" class="block text-sm font-medium text-gray-300 mb-2">Idioma de Destino *</label>
-                <select name="target_language" id="target_language" required
-                        class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                <label for="target_language">Idioma de Destino *</label>
+                <select name="target_language" id="target_language" required>
                     <option value="">Selecione</option>
                     <option value="pt-BR" <?php echo ($edit_project && $edit_project['target_language'] == 'pt-BR') ? 'selected' : ''; ?>>Português (Brasil)</option>
                     <option value="en-US" <?php echo ($edit_project && $edit_project['target_language'] == 'en-US') ? 'selected' : ''; ?>>Inglês (EUA)</option>
@@ -248,9 +241,8 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
             </div>
             
             <div>
-                <label for="service_type" class="block text-sm font-medium text-gray-300 mb-2">Tipo de Serviço *</label>
-                <select name="service_type" id="service_type" required
-                        class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                <label for="service_type">Tipo de Serviço *</label>
+                <select name="service_type" id="service_type" required>
                     <option value="translation" <?php echo ($edit_project && $edit_project['service_type'] == 'translation') ? 'selected' : ''; ?>>Tradução</option>
                     <option value="revision" <?php echo ($edit_project && $edit_project['service_type'] == 'revision') ? 'selected' : ''; ?>>Revisão</option>
                     <option value="proofreading" <?php echo ($edit_project && $edit_project['service_type'] == 'proofreading') ? 'selected' : ''; ?>>Revisão de Texto</option>
@@ -261,47 +253,42 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
             </div>
             
             <div>
-                <label for="word_count" class="block text-sm font-medium text-gray-300 mb-2">Contagem de Palavras</label>
+                <label for="word_count">Contagem de Palavras</label>
                 <input type="number" name="word_count" id="word_count" min="0"
                        value="<?php echo $edit_project['word_count'] ?? ''; ?>"
-                       class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white"
                        onchange="calculateTotal()">
             </div>
             
             <div>
-                <label for="rate_per_word" class="block text-sm font-medium text-gray-300 mb-2">Taxa por Palavra (R$)</label>
+                <label for="rate_per_word">Taxa por Palavra (R$)</label>
                 <input type="number" name="rate_per_word" id="rate_per_word" min="0" step="0.01"
                        value="<?php echo $edit_project['rate_per_word'] ?? ''; ?>"
-                       class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white"
                        onchange="calculateTotal()">
             </div>
             
             <div>
-                <label for="character_count" class="block text-sm font-medium text-gray-300 mb-2">Contagem de Caracteres</label>
+                <label for="character_count">Contagem de Caracteres</label>
                 <input type="number" name="character_count" id="character_count" min="0"
                        value="<?php echo $edit_project['character_count'] ?? ''; ?>"
-                       class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white"
                        onchange="calculateTotal()">
             </div>
             
             <div>
-                <label for="rate_per_character" class="block text-sm font-medium text-gray-300 mb-2">Taxa por Caractere (R$)</label>
+                <label for="rate_per_character">Taxa por Caractere (R$)</label>
                 <input type="number" name="rate_per_character" id="rate_per_character" min="0" step="0.01"
                        value="<?php echo $edit_project['rate_per_character'] ?? ''; ?>"
-                       class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white"
                        onchange="calculateTotal()">
             </div>
             
             <div>
-                <label for="total_amount" class="block text-sm font-medium text-gray-300 mb-2">Valor Total (R$)</label>
-                <input type="text" id="total_amount" readonly
-                       class="w-full p-3 bg-gray-600 border border-gray-600 rounded-lg text-white">
+                <label for="total_amount">Valor Total (R$)</label>
+                <input type="text" id="total_amount" readonly 
+                       style="background: rgba(255,255,255,0.03); cursor: not-allowed;">
             </div>
             
             <div>
-                <label for="status" class="block text-sm font-medium text-gray-300 mb-2">Status</label>
-                <select name="status" id="status"
-                        class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                <label for="status">Status</label>
+                <select name="status" id="status">
                     <option value="pending" <?php echo ($edit_project && $edit_project['status'] == 'pending') ? 'selected' : ''; ?>>Pendente</option>
                     <option value="in_progress" <?php echo ($edit_project && $edit_project['status'] == 'in_progress') ? 'selected' : ''; ?>>Em Andamento</option>
                     <option value="completed" <?php echo ($edit_project && $edit_project['status'] == 'completed') ? 'selected' : ''; ?>>Concluído</option>
@@ -311,9 +298,8 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
             </div>
             
             <div>
-                <label for="priority" class="block text-sm font-medium text-gray-300 mb-2">Prioridade</label>
-                <select name="priority" id="priority"
-                        class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                <label for="priority">Prioridade</label>
+                <select name="priority" id="priority">
                     <option value="low" <?php echo ($edit_project && $edit_project['priority'] == 'low') ? 'selected' : ''; ?>>Baixa</option>
                     <option value="medium" <?php echo ($edit_project && $edit_project['priority'] == 'medium') ? 'selected' : ''; ?>>Média</option>
                     <option value="high" <?php echo ($edit_project && $edit_project['priority'] == 'high') ? 'selected' : ''; ?>>Alta</option>
@@ -322,56 +308,55 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
             </div>
             
             <div>
-                <label for="start_date" class="block text-sm font-medium text-gray-300 mb-2">Data de Início</label>
+                <label for="start_date">Data de Início</label>
                 <input type="date" name="start_date" id="start_date"
-                       value="<?php echo $edit_project['start_date'] ?? ''; ?>"
-                       class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                       value="<?php echo $edit_project['start_date'] ?? ''; ?>">
             </div>
             
             <div>
-                <label for="deadline" class="block text-sm font-medium text-gray-300 mb-2">Prazo de Entrega</label>
+                <label for="deadline">Prazo de Entrega</label>
                 <input type="date" name="deadline" id="deadline"
-                       value="<?php echo $edit_project['deadline'] ?? ''; ?>"
-                       class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                       value="<?php echo $edit_project['deadline'] ?? ''; ?>">
             </div>
             
-            <div class="lg:col-span-3">
-                <label for="project_description" class="block text-sm font-medium text-gray-300 mb-2">Descrição do Projeto</label>
-                <textarea name="project_description" id="project_description" rows="3"
-                          class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white"><?php echo htmlspecialchars($edit_project['project_description'] ?? ''); ?></textarea>
+            <div style="grid-column: span 2;">
+                <label for="project_description">Descrição do Projeto</label>
+                <textarea name="project_description" id="project_description" rows="3"><?php echo htmlspecialchars($edit_project['project_description'] ?? ''); ?></textarea>
             </div>
             
-            <div class="lg:col-span-3">
-                <label for="notes" class="block text-sm font-medium text-gray-300 mb-2">Observações</label>
-                <textarea name="notes" id="notes" rows="3"
-                          class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white"><?php echo htmlspecialchars($edit_project['notes'] ?? ''); ?></textarea>
+            <div style="grid-column: span 2;">
+                <label for="notes">Observações</label>
+                <textarea name="notes" id="notes" rows="3"><?php echo htmlspecialchars($edit_project['notes'] ?? ''); ?></textarea>
             </div>
             
-            <div class="lg:col-span-3 flex gap-4">
-                <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg transition-colors text-white">
+            <div style="grid-column: span 2; display: flex; gap: 15px;">
+                <button type="submit" class="cta-btn">
+                    <i class="fas fa-<?php echo $edit_project ? 'save' : 'plus'; ?>"></i>
                     <?php echo $edit_project ? 'Atualizar Projeto' : 'Adicionar Projeto'; ?>
                 </button>
                 <?php if ($edit_project): ?>
-                    <a href="projects.php" class="bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded-lg transition-colors text-white">
-                        Cancelar
+                    <a href="projects.php" class="cta-btn" style="background: rgba(255,255,255,0.1);">
+                        <i class="fas fa-times"></i> Cancelar
                     </a>
                 <?php endif; ?>
             </div>
         </form>
     </div>
 
-    <!-- Filtros e Lista de Projetos -->
-    <div class="bg-gray-900 rounded-lg p-6">
-        <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
-            <h2 class="text-xl font-semibold text-white">Lista de Projetos</h2>
+    <!-- Lista de Projetos -->
+    <div class="vision-table">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px; border-bottom: 1px solid var(--glass-border);">
+            <h2 style="font-size: 1.3rem; margin: 0;">
+                <i class="fas fa-list"></i> Lista de Projetos
+            </h2>
             
             <!-- Filtros -->
-            <div class="flex gap-2">
-                <form method="GET" class="flex gap-2">
+            <div style="display: flex; gap: 10px;">
+                <form method="GET" style="display: flex; gap: 10px;">
                     <input type="text" name="search" placeholder="Buscar projetos..."
                            value="<?php echo htmlspecialchars($search); ?>"
-                           class="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    <select name="status" class="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                           style="padding: 8px 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white; font-size: 0.9rem;">
+                    <select name="status" style="padding: 8px 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white; font-size: 0.9rem;">
                         <option value="">Todos os status</option>
                         <option value="pending" <?php echo $status_filter == 'pending' ? 'selected' : ''; ?>>Pendente</option>
                         <option value="in_progress" <?php echo $status_filter == 'in_progress' ? 'selected' : ''; ?>>Em Andamento</option>
@@ -379,11 +364,11 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
                         <option value="on_hold" <?php echo $status_filter == 'on_hold' ? 'selected' : ''; ?>>Pausado</option>
                         <option value="cancelled" <?php echo $status_filter == 'cancelled' ? 'selected' : ''; ?>>Cancelado</option>
                     </select>
-                    <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
+                    <button type="submit" class="cta-btn" style="font-size: 0.9rem; padding: 8px 15px;">
                         <i class="fas fa-search"></i>
                     </button>
                     <?php if ($search || $status_filter): ?>
-                        <a href="projects.php" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">
+                        <a href="projects.php" class="cta-btn" style="background: rgba(255,255,255,0.1); font-size: 0.9rem; padding: 8px 15px;">
                             <i class="fas fa-times"></i>
                         </a>
                     <?php endif; ?>
@@ -392,93 +377,97 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
         </div>
 
         <?php if (empty($projects)): ?>
-            <p class="text-gray-400 text-center py-8">
-                <?php echo ($search || $status_filter) ? 'Nenhum projeto encontrado com os critérios de busca.' : 'Nenhum projeto cadastrado ainda.'; ?>
-            </p>
-        <?php else: ?>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="border-b border-gray-700">
-                            <th class="pb-3 text-gray-300">Projeto</th>
-                            <th class="pb-3 text-gray-300">Cliente</th>
-                            <th class="pb-3 text-gray-300">Idiomas</th>
-                            <th class="pb-3 text-gray-300">Status</th>
-                            <th class="pb-3 text-gray-300">Valor</th>
-                            <th class="pb-3 text-gray-300">Prazo</th>
-                            <th class="pb-3 text-gray-300">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($projects as $project): ?>
-                            <tr class="border-b border-gray-700 hover:bg-gray-700">
-                                <td class="py-4">
-                                    <div>
-                                        <p class="text-white font-medium"><?php echo htmlspecialchars($project['project_name']); ?></p>
-                                        <p class="text-gray-400 text-sm"><?php echo ucfirst($project['service_type']); ?></p>
-                                    </div>
-                                </td>
-                                <td class="py-4 text-gray-300"><?php echo htmlspecialchars($project['company_name']); ?></td>
-                                <td class="py-4 text-gray-300 text-sm">
-                                    <?php echo $project['source_language']; ?> → <?php echo $project['target_language']; ?>
-                                </td>
-                                <td class="py-4">
-                                    <span class="inline-block px-2 py-1 text-xs rounded-full
-                                        <?php 
-                                        switch($project['status']) {
-                                            case 'completed': echo 'bg-green-600 text-white'; break;
-                                            case 'in_progress': echo 'bg-blue-600 text-white'; break;
-                                            case 'pending': echo 'bg-yellow-600 text-white'; break;
-                                            case 'on_hold': echo 'bg-orange-600 text-white'; break;
-                                            case 'cancelled': echo 'bg-red-600 text-white'; break;
-                                            default: echo 'bg-gray-600 text-white';
-                                        }
-                                        ?>">
-                                        <?php 
-                                        $status_labels = [
-                                            'pending' => 'Pendente',
-                                            'in_progress' => 'Em Andamento',
-                                            'completed' => 'Concluído',
-                                            'cancelled' => 'Cancelado',
-                                            'on_hold' => 'Pausado'
-                                        ];
-                                        echo $status_labels[$project['status']] ?? $project['status'];
-                                        ?>
-                                    </span>
-                                </td>
-                                <td class="py-4 text-gray-300">R$ <?php echo number_format($project['total_amount'], 2, ',', '.'); ?></td>
-                                <td class="py-4 text-gray-300">
-                                    <?php if ($project['deadline']): ?>
-                                        <?php echo date('d/m/Y', strtotime($project['deadline'])); ?>
-                                    <?php else: ?>
-                                        -
-                                    <?php endif; ?>
-                                </td>
-                                <td class="py-4">
-                                    <div class="flex gap-2">
-                                        <a href="?edit=<?php echo $project['id']; ?>" 
-                                           class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm transition-colors">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja excluir este projeto?')">
-                                            <input type="hidden" name="action" value="delete_project">
-                                            <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
-                                            <button type="submit" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm transition-colors">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <div style="text-align: center; padding: 60px 20px;">
+                <i class="fas fa-folder-open" style="font-size: 4rem; color: #666; margin-bottom: 20px;"></i>
+                <h3 style="font-size: 1.3rem; margin-bottom: 10px;">Nenhum projeto encontrado</h3>
+                <p style="color: #ccc;">
+                    <?php echo ($search || $status_filter) ? 'Nenhum projeto encontrado com os critérios de busca.' : 'Nenhum projeto cadastrado ainda.'; ?>
+                </p>
             </div>
+        <?php else: ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Projeto</th>
+                        <th>Cliente</th>
+                        <th>Idiomas</th>
+                        <th>Status</th>
+                        <th>Valor</th>
+                        <th>Prazo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($projects as $project): ?>
+                        <tr>
+                            <td>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 5px;">
+                                        <?php echo htmlspecialchars($project['project_name']); ?>
+                                    </p>
+                                    <p style="color: #ccc; font-size: 0.9rem;">
+                                        <?php echo ucfirst($project['service_type']); ?>
+                                    </p>
+                                </div>
+                            </td>
+                            <td><?php echo htmlspecialchars($project['company_name']); ?></td>
+                            <td style="font-size: 0.9rem;">
+                                <?php echo $project['source_language']; ?> → <?php echo $project['target_language']; ?>
+                            </td>
+                            <td>
+                                <span class="tag <?php 
+                                    switch($project['status']) {
+                                        case 'completed': echo 'style="background: rgba(46, 204, 113, 0.25); color: #2ecc71;"'; break;
+                                        case 'in_progress': echo 'style="background: rgba(52, 152, 219, 0.25); color: #3498db;"'; break;
+                                        case 'pending': echo 'style="background: rgba(241, 196, 15, 0.25); color: #f1c40f;"'; break;
+                                        case 'on_hold': echo 'style="background: rgba(230, 126, 34, 0.25); color: #e67e22;"'; break;
+                                        case 'cancelled': echo 'style="background: rgba(231, 76, 60, 0.25); color: #e74c3c;"'; break;
+                                        default: echo 'style="background: rgba(149, 165, 166, 0.25); color: #95a5a6;"';
+                                    }
+                                ?>">
+                                    <?php 
+                                    $status_labels = [
+                                        'pending' => 'Pendente',
+                                        'in_progress' => 'Em Andamento',
+                                        'completed' => 'Concluído',
+                                        'cancelled' => 'Cancelado',
+                                        'on_hold' => 'Pausado'
+                                    ];
+                                    echo $status_labels[$project['status']] ?? $project['status'];
+                                    ?>
+                                </span>
+                            </td>
+                            <td>R$ <?php echo number_format($project['total_amount'], 2, ',', '.'); ?></td>
+                            <td>
+                                <?php if ($project['deadline']): ?>
+                                    <?php echo date('d/m/Y', strtotime($project['deadline'])); ?>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <a href="?edit=<?php echo $project['id']; ?>" 
+                                       class="cta-btn" style="font-size: 0.8rem; padding: 6px 12px; background: var(--brand-purple);">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este projeto?')">
+                                        <input type="hidden" name="action" value="delete_project">
+                                        <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
+                                        <button type="submit" class="cta-btn" style="font-size: 0.8rem; padding: 6px 12px; background: #e74c3c;">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         <?php endif; ?>
     </div>
-</div>
-</div>
-</div>
+</main>
+
 <script>
 function calculateTotal() {
     const wordCount = parseFloat(document.getElementById('word_count').value) || 0;
@@ -499,6 +488,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php include 'includes/footer.php'; ?>
-</body>
-</html>
+<?php include __DIR__ . '/vision/includes/footer.php'; ?>
