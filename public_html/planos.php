@@ -1,37 +1,36 @@
 <?php
 session_start();
-require_once 'config/database.php';
+require_once __DIR__ . '/config/database.php';
 
 $page_title = 'Planos e Preços';
 $page_description = 'Escolha o plano ideal para sua carreira. Acesso a mais de 350 palestras especializadas e com direito a certificados.';
 
 $redirect = $_GET['redirect'] ?? '';
 
-include 'includes/header.php';
+include __DIR__ . '/vision/includes/head.php';
 ?>
 
-<div class="min-h-screen px-4 py-8">
-    <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-bold mb-6">Planos e Preços</h1>
-            <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                Escolha o plano que melhor se adapta a suas necessidades e acelere sua 
-                carreira como profissional de tradução, interpretação ou revisão.
-            </p>
-            
-            <?php if ($redirect): ?>
-                <div class="mt-6 bg-yellow-600 bg-opacity-20 border border-yellow-600 border-opacity-30 rounded-lg p-4 max-w-md mx-auto">
-                    <p class="text-yellow-300">
-                        <i class="fas fa-lock mr-2"></i>
-                        É necessário ser assinante para acessar este conteúdo.
-                    </p>
-                </div>
-            <?php endif; ?>
-        </div>
+<?php include __DIR__ . '/vision/includes/header.php'; ?>
+
+<?php include __DIR__ . '/vision/includes/sidebar.php'; ?>
+
+<main class="main-content">
+    <!-- Hero Section -->
+    <section class="glass-hero">
+        <h1>💼 Planos e Preços</h1>
+        <p>Escolha o plano que melhor se adapta a suas necessidades e acelere sua carreira como profissional de tradução, interpretação ou revisão.</p>
         
-        <!-- Planos -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <?php if ($redirect): ?>
+            <div class="alert-warning" style="margin-top: 25px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <i class="fas fa-lock"></i>
+                É necessário ser assinante para acessar este conteúdo.
+            </div>
+        <?php endif; ?>
+    </section>
+    
+    <!-- Planos -->
+    <section>
+        <div class="video-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
             <?php
             $plans = [
                 [
@@ -40,7 +39,7 @@ include 'includes/header.php';
                     'period' => '/mês',
                     'savings' => 'Muito barato',
                     'description' => 'Ideal para começar',
-                    'hotmart_link' => 'https://pay.hotmart.com/V94273047M?off=i1hvrpr2&checkoutMode=10', // Substituir pelo link real da Hotmart
+                    'hotmart_link' => 'https://pay.hotmart.com/V94273047M?off=i1hvrpr2&checkoutMode=10',
                     'popular' => false
                 ],
                 [
@@ -49,7 +48,7 @@ include 'includes/header.php';
                     'period' => '/3 meses',
                     'savings' => 'Economize R$ 9',
                     'description' => 'Melhor custo-benefício',
-                    'hotmart_link' => 'https://pay.hotmart.com/V94273047M?off=whfa869v&checkoutMode=10', // Substituir pelo link real da Hotmart
+                    'hotmart_link' => 'https://pay.hotmart.com/V94273047M?off=whfa869v&checkoutMode=10',
                     'popular' => true
                 ],
                 [
@@ -58,7 +57,7 @@ include 'includes/header.php';
                     'period' => '/6 meses',
                     'savings' => 'Economize R$ 33',
                     'description' => 'Para estudos contínuos',
-                    'hotmart_link' => 'https://pay.hotmart.com/V94273047M?off=qh0m3cuy&checkoutMode=10', // Substituir pelo link real da Hotmart
+                    'hotmart_link' => 'https://pay.hotmart.com/V94273047M?off=qh0m3cuy&checkoutMode=10',
                     'popular' => false
                 ],
                 [
@@ -67,134 +66,147 @@ include 'includes/header.php';
                     'period' => '/ano',
                     'savings' => 'Economize R$ 86',
                     'description' => 'Máxima economia',
-                    'hotmart_link' => 'https://pay.hotmart.com/V94273047M?off=cor1dwtx&checkoutMode=10', // Substituir pelo link real da Hotmart
+                    'hotmart_link' => 'https://pay.hotmart.com/V94273047M?off=cor1dwtx&checkoutMode=10',
                     'popular' => false
                 ]
             ];
             
             foreach($plans as $plan):
             ?>
-                <div class="bg-gray-900 rounded-lg p-6 hover:scale-105 transition-transform relative <?php echo $plan['popular'] ? 'ring-2 ring-purple-500' : ''; ?>">
+                <div class="video-card fade-item" style="position: relative; <?php echo $plan['popular'] ? 'border: 2px solid var(--brand-purple);' : ''; ?>">
                     <?php if ($plan['popular']): ?>
-                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                            <span class="bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                                Mais Popular
-                            </span>
+                        <div class="badge-new" style="top: -10px; left: 50%; transform: translateX(-50%); background: var(--brand-purple);">
+                            <i class="fas fa-star"></i> Mais Popular
                         </div>
                     <?php endif; ?>
                     
-                    <div class="text-center">
-                        <h3 class="text-xl font-bold mb-2"><?php echo $plan['name']; ?></h3>
-                        <p class="text-gray-400 text-sm mb-4"><?php echo $plan['description']; ?></p>
+                    <div class="video-info" style="text-align: center;">
+                        <h3 style="font-size: 1.3rem; margin-bottom: 10px;"><?php echo $plan['name']; ?></h3>
+                        <p style="color: #ccc; margin-bottom: 20px;"><?php echo $plan['description']; ?></p>
                         
-                        <div class="mb-6">
-                            <div class="text-3xl font-bold text-purple-400"><?php echo $plan['price']; ?></div>
-                            <div class="text-gray-400"><?php echo $plan['period']; ?></div>
+                        <div style="margin-bottom: 25px;">
+                            <div style="font-size: 2.2rem; font-weight: bold; color: var(--brand-purple); margin-bottom: 5px;">
+                                <?php echo $plan['price']; ?>
+                            </div>
+                            <div style="color: #ccc; margin-bottom: 10px;"><?php echo $plan['period']; ?></div>
                             <?php if ($plan['savings']): ?>
-                                <div class="text-green-400 text-sm mt-2 font-semibold">
+                                <div class="tag" style="background: rgba(46, 204, 113, 0.25); color: #2ecc71; font-weight: 600;">
                                     <?php echo $plan['savings']; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
                         
-                        <a 
-                            href="<?php echo $plan['hotmart_link']; ?>" 
-                            class="block w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-semibold transition-colors mb-4"
-                            target="_blank"
-                        >
-                            Assinar
+                        <a href="<?php echo $plan['hotmart_link']; ?>" 
+                           class="cta-btn" 
+                           style="width: 100%; margin-bottom: 20px;"
+                           target="_blank">
+                            <i class="fas fa-credit-card"></i> Assinar
                         </a>
-                    </div>
-                    
-                    <!-- Benefícios inclusos -->
-                    <div class="text-sm text-gray-400">
-                        <p class="font-semibold mb-2">Incluso no plano:</p>
-                        <ul class="space-y-1">
-                            <li><i class="fas fa-check text-green-400 mr-2"></i>Acesso a todas as palestras</li>
-                            <li><i class="fas fa-check text-green-400 mr-2"></i>Certificados automáticos</li>
-                            <li><i class="fas fa-check text-green-400 mr-2"></i>Suporte especializado</li>
-                            <li><i class="fas fa-check text-green-400 mr-2"></i>Cancelamento fácil</li>
-                        </ul>
+                        
+                        <!-- Benefícios inclusos -->
+                        <div style="text-align: left; color: #ddd; font-size: 0.9rem;">
+                            <p style="font-weight: 600; margin-bottom: 10px; text-align: center;">Incluso no plano:</p>
+                            <ul style="list-style: none; padding: 0; space-y: 5px;">
+                                <li><i class="fas fa-check" style="color: #2ecc71; margin-right: 8px;"></i>Acesso a todas as palestras</li>
+                                <li><i class="fas fa-check" style="color: #2ecc71; margin-right: 8px;"></i>Certificados automáticos</li>
+                                <li><i class="fas fa-check" style="color: #2ecc71; margin-right: 8px;"></i>Suporte especializado</li>
+                                <li><i class="fas fa-check" style="color: #2ecc71; margin-right: 8px;"></i>Cancelamento fácil</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
+    </section>
+    
+    <!-- Benefícios Gerais -->
+    <section class="vision-form" style="margin-top: 60px;">
+        <h2 style="font-size: 2rem; text-align: center; margin-bottom: 40px;">O que você ganha com a assinatura</h2>
         
-        <!-- Benefícios Gerais -->
-        <div class="bg-gray-900 rounded-lg p-8 mb-16">
-            <h2 class="text-3xl font-bold text-center mb-8">O que você ganha com a assinatura</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div class="text-4xl mb-4">🎥</div>
-                    <h3 class="text-xl font-semibold mb-3">Quase 400 Palestras</h3>
-                    <p class="text-gray-400">
+        <div class="video-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <div class="video-card fade-item">
+                <div class="video-info" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🎥</div>
+                    <h3 style="margin-bottom: 15px;">Quase 400 Palestras</h3>
+                    <p class="video-desc">
                         Acesso completo ao nosso extenso catálogo de palestras especializadas.
                     </p>
                 </div>
-                
-                <div class="text-center">
-                    <div class="text-4xl mb-4">📜</div>
-                    <h3 class="text-xl font-semibold mb-3">Certificados Automáticos</h3>
-                    <p class="text-gray-400">
+            </div>
+            
+            <div class="video-card fade-item">
+                <div class="video-info" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">📜</div>
+                    <h3 style="margin-bottom: 15px;">Certificados Automáticos</h3>
+                    <p class="video-desc">
                         Receba certificados em PDF automaticamente após assistir às palestras.
                     </p>
                 </div>
-                
-                <div class="text-center">
-                    <div class="text-4xl mb-4">🔄</div>
-                    <h3 class="text-xl font-semibold mb-3">Novas palestras toda semana</h3>
-                    <p class="text-gray-400">
+            </div>
+            
+            <div class="video-card fade-item">
+                <div class="video-info" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🔄</div>
+                    <h3 style="margin-bottom: 15px;">Novas palestras toda semana</h3>
+                    <p class="video-desc">
                         Conteúdo novo toda semana para manter você sempre atualizado.
                     </p>
                 </div>
-                
-                <div class="text-center">
-                    <div class="text-4xl mb-4">📱</div>
-                    <h3 class="text-xl font-semibold mb-3">Acesso Multiplataforma</h3>
-                    <p class="text-gray-400">
+            </div>
+            
+            <div class="video-card fade-item">
+                <div class="video-info" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">📱</div>
+                    <h3 style="margin-bottom: 15px;">Acesso Multiplataforma</h3>
+                    <p class="video-desc">
                         Assista em qualquer dispositivo, a qualquer hora e lugar.
                     </p>
                 </div>
-                
-                <div class="text-center">
-                    <div class="text-4xl mb-4">🎯</div>
-                    <h3 class="text-xl font-semibold mb-3">Conteúdo Especializado</h3>
-                    <p class="text-gray-400">
+            </div>
+            
+            <div class="video-card fade-item">
+                <div class="video-info" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🎯</div>
+                    <h3 style="margin-bottom: 15px;">Conteúdo Especializado</h3>
+                    <p class="video-desc">
                         Focado exclusivamente em tradução, interpretação e revisão.
                     </p>
                 </div>
-                
-                <div class="text-center">
-                    <div class="text-4xl mb-4">❌</div>
-                    <h3 class="text-xl font-semibold mb-3">Cancelamento Fácil</h3>
-                    <p class="text-gray-400">
+            </div>
+            
+            <div class="video-card fade-item">
+                <div class="video-info" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">❌</div>
+                    <h3 style="margin-bottom: 15px;">Cancelamento Fácil</h3>
+                    <p class="video-desc">
                         Cancele sua assinatura a qualquer momento, sem complicações.
                     </p>
                 </div>
             </div>
         </div>
+    </section>
+    
+    <!-- Depoimentos -->
+    <section style="margin-top: 60px;">
+        <h2 style="font-size: 2rem; text-align: center; margin-bottom: 40px;">O que os assinantes dizem</h2>
         
-        <!-- Depoimentos -->
-        <div class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-12">O que os assinantes dizem</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-gray-900 rounded-lg p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mr-4">
-                            <span class="text-white font-bold">MC</span>
+        <div class="video-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+            <div class="video-card fade-item">
+                <div class="video-info">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 50px; height: 50px; background: var(--brand-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <span style="color: white; font-weight: bold;">MC</span>
                         </div>
                         <div>
-                            <h4 class="font-semibold">Maria Clara</h4>
-                            <p class="text-gray-400 text-sm">Tradutora Juramentada</p>
+                            <h4 style="font-weight: 600; margin-bottom: 5px;">Maria Clara</h4>
+                            <p style="color: #ccc; font-size: 0.9rem;">Tradutora Juramentada</p>
                         </div>
                     </div>
-                    <p class="text-gray-300">
+                    <p class="video-desc">
                         "As palestras são excelentes e me ajudaram muito a aprimorar minhas técnicas 
                         de tradução. O certificado automático é um diferencial."
                     </p>
-                    <div class="flex text-yellow-400 mt-4">
+                    <div style="display: flex; color: #f1c40f; margin-top: 15px;">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -202,22 +214,24 @@ include 'includes/header.php';
                         <i class="fas fa-star"></i>
                     </div>
                 </div>
-                
-                <div class="bg-gray-900 rounded-lg p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mr-4">
-                            <span class="text-white font-bold">JS</span>
+            </div>
+            
+            <div class="video-card fade-item">
+                <div class="video-info">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 50px; height: 50px; background: var(--brand-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <span style="color: white; font-weight: bold;">JS</span>
                         </div>
                         <div>
-                            <h4 class="font-semibold">João Silva</h4>
-                            <p class="text-gray-400 text-sm">Intérprete Simultâneo</p>
+                            <h4 style="font-weight: 600; margin-bottom: 5px;">João Silva</h4>
+                            <p style="color: #ccc; font-size: 0.9rem;">Intérprete Simultâneo</p>
                         </div>
                     </div>
-                    <p class="text-gray-300">
+                    <p class="video-desc">
                         "Conteúdo de altíssima qualidade com palestrantes renomados. 
                         Indispensável para quem quer se manter atualizado no mercado."
                     </p>
-                    <div class="flex text-yellow-400 mt-4">
+                    <div style="display: flex; color: #f1c40f; margin-top: 15px;">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -225,22 +239,24 @@ include 'includes/header.php';
                         <i class="fas fa-star"></i>
                     </div>
                 </div>
-                
-                <div class="bg-gray-900 rounded-lg p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mr-4">
-                            <span class="text-white font-bold">AF</span>
+            </div>
+            
+            <div class="video-card fade-item">
+                <div class="video-info">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 50px; height: 50px; background: var(--brand-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <span style="color: white; font-weight: bold;">AF</span>
                         </div>
                         <div>
-                            <h4 class="font-semibold">Ana Fernandes</h4>
-                            <p class="text-gray-400 text-sm">Revisora Técnica</p>
+                            <h4 style="font-weight: 600; margin-bottom: 5px;">Ana Fernandes</h4>
+                            <p style="color: #ccc; font-size: 0.9rem;">Revisora Técnica</p>
                         </div>
                     </div>
-                    <p class="text-gray-300">
+                    <p class="video-desc">
                         "A plataforma é muito fácil de usar e o preço é baixíssimo. 
                         Já assisti dezenas de palestras e todas agregaram muito conhecimento."
                     </p>
-                    <div class="flex text-yellow-400 mt-4">
+                    <div style="display: flex; color: #f1c40f; margin-top: 15px;">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -250,21 +266,41 @@ include 'includes/header.php';
                 </div>
             </div>
         </div>
-        
-        <!-- Call to Action Final -->
-        <div class="bg-gradient-to-r from-purple-900 to-purple-600 rounded-lg p-8 text-center">
-            <h2 class="text-3xl font-bold mb-4">
-                Vamos acelerar sua carreira?
-            </h2>
-            <p class="text-xl mb-8 opacity-90">
-                Junte-se a mais de 1.500 profissionais que já transformaram suas carreiras com a Translators101.
-            </p>
-            <a href="#planos" onclick="document.querySelector('.grid').scrollIntoView({behavior: 'smooth'})" 
-               class="bg-white text-purple-600 hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold transition-colors inline-block">
-                Escolher Plano
+    </section>
+    
+    <!-- Call to Action Final -->
+    <section class="glass-hero" style="margin-top: 60px;">
+        <h2 style="font-size: 2rem;">Vamos acelerar sua carreira?</h2>
+        <p>Junte-se a mais de 1.500 profissionais que já transformaram suas carreiras com a Translators101.</p>
+        <div style="margin-top: 30px;">
+            <a href="#planos" onclick="document.querySelector('.video-grid').scrollIntoView({behavior: 'smooth'})" 
+               class="cta-btn" style="background: white; color: var(--brand-purple);">
+                <i class="fas fa-rocket"></i> Escolher Plano
             </a>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 
-<?php include 'includes/footer.php'; ?>
+<style>
+/* Ajustes específicos para planos */
+.video-card ul li {
+    margin-bottom: 8px;
+}
+
+.badge-new {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+}
+
+@media (max-width: 768px) {
+    .video-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .glass-hero h1, .glass-hero h2 {
+        font-size: 1.8rem;
+    }
+}
+</style>
+
+<?php include __DIR__ . '/vision/includes/footer.php'; ?>
