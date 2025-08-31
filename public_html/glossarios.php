@@ -85,7 +85,7 @@ include __DIR__ . '/vision/includes/head.php';
 <main class="main-content">
     <!-- Hero Section -->
     <section class="glass-hero">
-        <h1>📚 Glossários Especializados</h1>
+        <h1><i class="fas fa-book" style="margin-right: 10px;"></i>Glossários Especializados</h1>
         <p>Baixe gratuitamente nossos glossários especializados para tradutores e intérpretes profissionais.</p>
     </section>
 
