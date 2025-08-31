@@ -220,16 +220,10 @@ include __DIR__ . '/vision/includes/head.php';
             </div>
             
             <div>
-                <label for="client_id">Cliente *</label>
-                <select name="client_id" id="client_id" required>
-                    <option value="">Selecione um cliente</option>
-                    <?php foreach ($clients as $client): ?>
-                        <option value="<?php echo $client['id']; ?>" 
-                                <?php echo ($edit_project && $edit_project['client_id'] == $client['id']) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($client['company_name']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <label for="client_name">Nome do Cliente</label>
+                <input type="text" name="client_name" id="client_name"
+                       value="<?php echo htmlspecialchars($edit_project['client_name'] ?? ''); ?>"
+                       placeholder="Ex: Empresa ABC, João Silva, etc.">
             </div>
             
             <div>
