@@ -422,7 +422,7 @@ include __DIR__ . '/vision/includes/head.php';
                                     </p>
                                 </div>
                             </td>
-                            <td><?php echo htmlspecialchars($project['company_name']); ?></td>
+                            <td><?php echo htmlspecialchars($project['client_name'] ?? 'Cliente não informado'); ?></td>
                             <td style="font-size: 0.9rem;">
                                 <?php echo $project['source_language']; ?> → <?php echo $project['target_language']; ?>
                             </td>
