@@ -183,7 +183,7 @@ include __DIR__ . '/vision/includes/head.php';
 <main class="main-content">
     <!-- Hero Section -->
     <section class="glass-hero">
-        <h1>📁 Gerenciar Projetos</h1>
+        <h1><i class="fas fa-folder-open" style="margin-right: 10px;"></i>Gerenciar Projetos</h1>
         <p>Crie e acompanhe seus projetos de tradução de forma organizada e profissional.</p>
     </section>
 
