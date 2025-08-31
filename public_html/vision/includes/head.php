@@ -7,7 +7,7 @@
   <meta name="description" content="<?php echo isset($page_description) ? $page_description : 'Plataforma de streaming educacional para profissionais de tradução, interpretação e revisão. Quase 400 palestras especializadas.'; ?>">
 
   <!-- CSS principal Vision -->
-  <link rel="stylesheet" href="vision/assets/css/style.css?v=11">
+  <link rel="stylesheet" href="vision/assets/css/style.css?v=12">
 
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
