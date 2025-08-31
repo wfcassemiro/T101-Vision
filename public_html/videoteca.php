@@ -273,7 +273,9 @@ include __DIR__ . '/vision/includes/head.php';
     <?php else: ?>
     <!-- Estado vazio -->
     <div style="text-align: center; padding: 60px 20px; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px;">
-        <div style="font-size: 4rem; margin-bottom: 20px;">🔍</div>
+        <div style="font-size: 4rem; margin-bottom: 20px; color: var(--brand-purple);">
+            <i class="fas fa-search"></i>
+        </div>
         <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Nenhuma palestra encontrada</h3>
         <p style="color: #ccc; margin-bottom: 30px;">
             Tente ajustar os filtros ou termos de busca.
