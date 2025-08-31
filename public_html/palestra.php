@@ -235,11 +235,13 @@ include __DIR__ . '/vision/includes/head.php';
                     $tags = json_decode($lecture['tags'] ?? '[]', true);
                     if (!empty($tags)): 
                     ?>
-                        <div class="mt-6">
-                            <h4 class="font-semibold mb-3">Tags:</h4>
-                            <div class="flex flex-wrap gap-2">
+                        <div style="margin-top: 25px;">
+                            <h4 style="font-weight: 600; margin-bottom: 15px; color: #fff;">
+                                <i class="fas fa-tags" style="margin-right: 8px; color: var(--brand-purple);"></i>Tags:
+                            </h4>
+                            <div style="display: flex; flex-wrap: gap: 8px;">
                                 <?php foreach($tags as $tag): ?>
-                                    <span class="bg-gray-800 text-purple-400 px-3 py-1 rounded-full text-sm">
+                                    <span class="tag" style="background: rgba(142, 68, 173, 0.25); color: var(--brand-purple);">
                                         #<?php echo htmlspecialchars($tag); ?>
                                     </span>
                                 <?php endforeach; ?>
@@ -248,80 +250,119 @@ include __DIR__ . '/vision/includes/head.php';
                     <?php endif; ?>
                 </div>
             </div>
-            
-            <div class="lg:col-span-1">
-                <div class="bg-gray-900 rounded-lg p-6 mb-6">
-                    <h3 class="text-xl font-bold mb-4">Detalhes da Palestra</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <strong class="text-gray-400">Palestrante:</strong> 
-                            <span class="text-white"><?php echo htmlspecialchars($lecture['speaker']); ?></span>
+        </div>
+        
+        <!-- Sidebar - Detalhes e Certificado -->
+        <div>
+            <!-- Card Detalhes -->
+            <div class="video-card" style="margin-bottom: 30px;">
+                <div class="video-info">
+                    <h3 style="font-size: 1.3rem; font-weight: bold; margin-bottom: 20px; color: #fff;">
+                        <i class="fas fa-info-circle" style="margin-right: 10px; color: var(--brand-purple);"></i>
+                        Detalhes da Palestra
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <strong style="color: #ccc; display: flex; align-items: center;">
+                                <i class="fas fa-user" style="margin-right: 8px; color: var(--brand-purple);"></i>
+                                Palestrante:
+                            </strong> 
+                            <span style="color: #fff; font-weight: 500;"><?php echo htmlspecialchars($lecture['speaker']); ?></span>
                         </div>
-                        <div>
-                            <strong class="text-gray-400">Duração:</strong> 
-                            <span class="text-white"><?php echo $lecture['duration_minutes']; ?> min</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <strong style="color: #ccc; display: flex; align-items: center;">
+                                <i class="fas fa-clock" style="margin-right: 8px; color: var(--brand-purple);"></i>
+                                Duração:
+                            </strong> 
+                            <span style="color: #fff; font-weight: 500;"><?php echo $lecture['duration_minutes']; ?> min</span>
                         </div>
-                        <div>
-                            <strong class="text-gray-400">Categoria:</strong> 
-                            <span class="text-white"><?php echo htmlspecialchars($lecture['category']); ?></span>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <strong style="color: #ccc; display: flex; align-items: center;">
+                                <i class="fas fa-tag" style="margin-right: 8px; color: var(--brand-purple);"></i>
+                                Categoria:
+                            </strong> 
+                            <span style="color: #fff; font-weight: 500;"><?php echo htmlspecialchars($lecture['category']); ?></span>
                         </div>
-                        <div>
-                            <strong class="text-gray-400">Publicado em:</strong> 
-                            <span class="text-white"><?php echo date('d/m/Y', strtotime($lecture['created_at'])); ?></span>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <strong style="color: #ccc; display: flex; align-items: center;">
+                                <i class="fas fa-calendar-alt" style="margin-right: 8px; color: var(--brand-purple);"></i>
+                                Publicado:
+                            </strong> 
+                            <span style="color: #fff; font-weight: 500;"><?php echo date('d/m/Y', strtotime($lecture['created_at'])); ?></span>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="bg-gray-900 rounded-lg p-6 mb-6">
-                    <h3 class="text-xl font-bold mb-4">Certificado de Conclusão</h3>
+            <!-- Card Certificado -->
+            <div class="video-card" style="margin-bottom: 30px;">
+                <div class="video-info">
+                    <h3 style="font-size: 1.3rem; font-weight: bold; margin-bottom: 20px; color: #fff;">
+                        <i class="fas fa-certificate" style="margin-right: 10px; color: var(--brand-purple);"></i>
+                        Certificado de Conclusão
+                    </h3>
                     
-                    <div class="space-y-3">
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
                         <?php if ($existing_certificate): ?>
-                             <p class="text-green-400 text-sm mb-3">
-                                <i class="fas fa-check-circle mr-2"></i>Você já concluiu esta palestra!
+                             <p class="alert-success" style="margin-bottom: 15px; padding: 12px; font-size: 0.9rem;">
+                                <i class="fas fa-check-circle"></i> Você já concluiu esta palestra!
                             </p>
                             <a href="/download_certificate.php?id=<?php echo $existing_certificate['id']; ?>" 
                                target="_blank"
-                               class="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-colors">
-                                Baixar meu certificado (PDF)
+                               class="cta-btn" style="text-align: center;">
+                                <i class="fas fa-download" style="margin-right: 8px;"></i>
+                                Baixar Certificado (PDF)
                             </a>
-                            <p class="text-gray-400 text-xs text-center mt-2">
+                            <p style="color: #bbb; font-size: 0.85rem; text-align: center; margin-top: 10px;">
+                                <i class="fas fa-calendar-check" style="margin-right: 5px;"></i>
                                 Emitido em <?php echo date('d/m/Y', strtotime($existing_certificate['issued_at'])); ?>
                             </p>
                         <?php else: ?>
-                            <p id="certificateMessage" class="text-yellow-400 text-sm mb-3">
+                            <p id="certificateMessage" class="alert-warning" style="margin-bottom: 15px; padding: 12px; font-size: 0.9rem;">
+                                <i class="fas fa-exclamation-triangle"></i>
                                 Assista à palestra para habilitar a geração do certificado.
                             </p>
                             <form id="certificateForm">
                                 <button type="button" name="generate_certificate" id="generateCertificateBtn"
-                                        class="block w-full text-center bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors opacity-50 cursor-not-allowed"
+                                        class="cta-btn" style="width: 100%; text-align: center; opacity: 0.5; cursor: not-allowed; background: #666;"
                                         disabled>
+                                    <i class="fas fa-certificate" style="margin-right: 8px;"></i>
                                     Gerar Certificado
                                 </button>
                             </form>
-                            <p class="text-gray-400 text-xs text-center mt-2">
-                                <i class="fas fa-shield-alt mr-1"></i>Requer 85% de visualização sequencial (anti-fraude ativo)
+                            <p style="color: #bbb; font-size: 0.8rem; text-align: center; margin-top: 10px;">
+                                <i class="fas fa-shield-alt" style="margin-right: 5px;"></i>
+                                Requer 85% de visualização sequencial (anti-fraude ativo)
                             </p>
                         <?php endif; ?>
                     </div>
                 </div>
+            </div>
 
-                <?php if (!$existing_certificate): ?>
-                <div class="bg-gray-900 rounded-lg p-6 mb-6">
-                    <h3 class="text-xl font-bold mb-4">Progresso Seguro de Visualização</h3>
+            <?php if (!$existing_certificate): ?>
+            <!-- Card Progresso -->
+            <div class="video-card">
+                <div class="video-info">
+                    <h3 style="font-size: 1.3rem; font-weight: bold; margin-bottom: 20px; color: #fff;">
+                        <i class="fas fa-chart-line" style="margin-right: 10px; color: var(--brand-purple);"></i>
+                        Progresso Seguro de Visualização
+                    </h3>
                     
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-sm text-gray-400">
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #ccc; margin-bottom: 8px;">
                             <span>Tempo Sequencial</span>
                             <span id="progressText">0% (0s / 0s)</span>
                         </div>
                         
-                        <div class="w-full bg-gray-800 rounded-full h-3">
-                            <div id="progressBar" class="bg-gradient-to-r from-purple-600 to-purple-400 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        <div style="width: 100%; background: rgba(255,255,255,0.1); border-radius: 10px; height: 12px; overflow: hidden;">
+                            <div id="progressBar" style="background: linear-gradient(90deg, var(--brand-purple), #bd72e8); height: 100%; border-radius: 10px; width: 0%; transition: width 0.5s ease;"></div>
                         </div>
-                        
-                        <div class="flex justify-between text-xs text-gray-500">
-                            <span id="securityStatus">🛡️ Sistema anti-fraude ativo</span>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #888;">
+                        <span id="securityStatus">
+                            <i class="fas fa-shield-alt" style="color: var(--brand-purple);"></i> Sistema anti-fraude ativo
+                        </span>
                             <span id="statusText">Carregando player...</span>
                         </div>
                         
