@@ -284,7 +284,9 @@ include __DIR__ . '/vision/includes/head.php';
             
             <div class="video-card fade-item">
                 <div class="video-info">
-                    <h4 style="color: var(--brand-purple); margin-bottom: 10px;">🔍 Busca inteligente</h4>
+                    <h4 style="color: var(--brand-purple); margin-bottom: 10px;">
+                        <i class="fas fa-search" style="margin-right: 8px;"></i>Busca inteligente
+                    </h4>
                     <p style="font-size: 0.9rem; color: #ddd;">
                         Use a busca para encontrar glossários específicos ou descrições que contenham 
                         palavras-chave relacionadas ao seu projeto de tradução.
