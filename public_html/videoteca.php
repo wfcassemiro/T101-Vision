@@ -188,7 +188,9 @@ include __DIR__ . '/vision/includes/head.php';
                      style="width: 100%; height: 100%; object-fit: cover;">
                 <?php else: ?>
                 <div style="text-align: center; color: white;">
-                    <div style="font-size: 3rem; margin-bottom: 10px;">🎥</div>
+                    <div style="font-size: 3rem; margin-bottom: 10px; color: var(--brand-purple);">
+                        <i class="fas fa-video"></i>
+                    </div>
                     <div style="font-size: 0.9rem; opacity: 0.8;">Palestra</div>
                 </div>
                 <?php endif; ?>
