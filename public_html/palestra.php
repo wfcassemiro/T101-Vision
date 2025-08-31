@@ -201,28 +201,32 @@ include __DIR__ . '/vision/includes/head.php';
                      writeToCustomLog("DEBUG: Panda Player Div ID extraído do embed: '" . $panda_player_div_id . "'");
                     echo $lecture['embed_code']; 
                     ?>
-                </div>
-                
-                <div>
-                    <h1 class="text-3xl font-bold mb-4"><?php echo htmlspecialchars($lecture['title']); ?></h1>
+            </div>
+            
+            <!-- Informações da Palestra -->
+            <div class="video-card">
+                <div class="video-info">
+                    <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 20px; color: #fff;">
+                        <?php echo htmlspecialchars($lecture['title']); ?>
+                    </h1>
                     
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="flex items-center text-purple-400">
-                            <i class="fas fa-user mr-2"></i>
-                            <span class="font-semibold"><?php echo htmlspecialchars($lecture['speaker']); ?></span>
+                    <div style="display: flex; flex-wrap: gap: 20px; margin-bottom: 25px; font-size: 0.95rem;">
+                        <div style="display: flex; align-items: center; color: var(--brand-purple);">
+                            <i class="fas fa-user" style="margin-right: 8px;"></i>
+                            <span style="font-weight: 600;"><?php echo htmlspecialchars($lecture['speaker']); ?></span>
                         </div>
-                        <div class="flex items-center text-gray-400">
-                            <i class="fas fa-clock mr-2"></i>
+                        <div style="display: flex; align-items: center; color: #ddd;">
+                            <i class="fas fa-clock" style="margin-right: 8px;"></i>
                             <span><?php echo $lecture['duration_minutes']; ?> minutos</span>
                         </div>
-                        <div class="flex items-center text-gray-400">
-                            <i class="fas fa-tag mr-2"></i>
+                        <div style="display: flex; align-items: center; color: #ddd;">
+                            <i class="fas fa-tag" style="margin-right: 8px;"></i>
                             <span><?php echo htmlspecialchars($lecture['category']); ?></span>
                         </div>
                     </div>
                     
-                    <div class="prose prose-invert max-w-none">
-                        <p class="text-lg text-gray-300 leading-relaxed">
+                    <div style="margin-bottom: 25px;">
+                        <p style="font-size: 1.1rem; line-height: 1.7; color: #e0e0e0;">
                             <?php echo nl2br(htmlspecialchars($lecture['description'])); ?>
                         </p>
                     </div>
