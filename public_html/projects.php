@@ -17,11 +17,6 @@ $user_id = $_SESSION['user_id'];
 $message = '';
 $error = '';
 
-// Função simplificada para calcular total
-function calculateProjectTotal($word_count, $character_count, $rate_per_word, $rate_per_character) {
-    return ($word_count * $rate_per_word) + ($character_count * $rate_per_character);
-}
-
 // Processar ações
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
