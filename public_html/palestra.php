@@ -138,46 +138,61 @@ try {
 }
 
 // INÍCIO DO HTML E JAVASCRIPT PARA MONITORAR VÍDEO
-include 'includes/header.php';
+include __DIR__ . '/vision/includes/head.php';
 ?>
 
-<div class="min-h-screen px-4 py-8">
-    <div class="max-w-6xl mx-auto">
-        <nav class="mb-6">
-            <ol class="flex space-x-2 text-sm text-gray-400">
-                <li><a href="/" class="hover:text-purple-400">Home</a></li>
-                <li><i class="fas fa-chevron-right"></i></li>
-                <li><a href="/videoteca.php" class="hover:text-purple-400">Videoteca</a></li>
-                <li><i class="fas fa-chevron-right"></i></li>
-                <li class="text-white"><?php echo htmlspecialchars($lecture['title']); ?></li>
-            </ol>
-        </nav>
+<?php include __DIR__ . '/vision/includes/header.php'; ?>
 
-        <?php if ($message): ?>
-            <div class="mb-6 p-4 rounded-lg <?php 
-                if ($message_type === 'success') echo 'bg-green-600 bg-opacity-20 border border-green-600 text-green-400';
-                elseif ($message_type === 'info') echo 'bg-blue-600 bg-opacity-20 border border-blue-600 text-blue-400';
-                elseif ($message_type === 'error') echo 'bg-red-600 bg-opacity-20 border border-red-600 text-red-400';
-            ?>" id="serverMessageDiv">
-                <?php echo htmlspecialchars($message); ?>
-            </div>
-            <script>
-                // Esconde a mensagem do PHP após 10 segundos
-                document.addEventListener('DOMContentLoaded', () => {
-                    const serverMessageDiv = document.getElementById('serverMessageDiv');
-                    if (serverMessageDiv) {
-                        setTimeout(() => {
-                            serverMessageDiv.style.display = 'none';
-                        }, 10000);
-                    }
-                });
-            </script>
-        <?php endif; ?>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2">
-                <div class="video-container mb-6">
-                    <?php 
+<?php include __DIR__ . '/vision/includes/sidebar.php'; ?>
+
+<main class="main-content">
+    <!-- Breadcrumb -->
+    <nav style="background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; margin-bottom: 30px;">
+        <ol style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #ddd; list-style: none; margin: 0; padding: 0;">
+            <li><a href="index.php" style="color: var(--brand-purple); text-decoration: none;">
+                <i class="fas fa-home"></i> Início</a></li>
+            <li><i class="fas fa-chevron-right" style="font-size: 0.8rem;"></i></li>
+            <li><a href="videoteca.php" style="color: var(--brand-purple); text-decoration: none;">
+                <i class="fas fa-video"></i> Videoteca</a></li>
+            <li><i class="fas fa-chevron-right" style="font-size: 0.8rem;"></i></li>
+            <li style="color: #fff; font-weight: 500;"><?php echo htmlspecialchars($lecture['title']); ?></li>
+        </ol>
+    </nav>
+
+    <!-- Mensagens -->
+    <?php if ($message): ?>
+        <div class="<?php 
+            if ($message_type === 'success') echo 'alert-success';
+            elseif ($message_type === 'info') echo 'alert-warning';
+            elseif ($message_type === 'error') echo 'alert-error';
+        ?>" id="serverMessageDiv">
+            <i class="fas fa-<?php 
+                if ($message_type === 'success') echo 'check-circle';
+                elseif ($message_type === 'info') echo 'info-circle';
+                elseif ($message_type === 'error') echo 'exclamation-triangle';
+            ?>"></i>
+            <?php echo htmlspecialchars($message); ?>
+        </div>
+        <script>
+            // Esconde a mensagem do PHP após 10 segundos
+            document.addEventListener('DOMContentLoaded', () => {
+                const serverMessageDiv = document.getElementById('serverMessageDiv');
+                if (serverMessageDiv) {
+                    setTimeout(() => {
+                        serverMessageDiv.style.opacity = '0';
+                        setTimeout(() => serverMessageDiv.style.display = 'none', 300);
+                    }, 10000);
+                }
+            });
+        </script>
+    <?php endif; ?>
+    
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 40px;">
+        <!-- Coluna Principal - Vídeo e Informações -->
+        <div>
+            <!-- Container do Vídeo -->
+            <div class="video-card" style="padding: 0; margin-bottom: 30px; overflow: hidden;">
+                <?php 
                     // Extrai o ID do div do Panda Video para o JavaScript
                     $panda_player_div_id = '';
                     if (preg_match('/<div[^>]*id="([^"]*panda-[^"]*)"[^>]*>/i', $lecture['embed_code'], $matches)) {
