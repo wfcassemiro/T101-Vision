@@ -17,6 +17,11 @@ $user_id = $_SESSION['user_id'];
 $message = '';
 $error = '';
 
+// Função simplificada para calcular total
+function calculateProjectTotal($word_count, $character_count, $rate_per_word, $rate_per_character) {
+    return ($word_count * $rate_per_word) + ($character_count * $rate_per_character);
+}
+
 // Processar ações
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
@@ -29,10 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $rate_per_character = floatval($_POST['rate_per_character'] ?? 0);
                     $total_amount = calculateProjectTotal($word_count, $character_count, $rate_per_word, $rate_per_character);
                     
-                    $stmt = $pdo->prepare("INSERT INTO dash_projects (user_id, client_id, project_name, project_description, source_language, target_language, service_type, word_count, character_count, rate_per_word, rate_per_character, total_amount, currency, status, priority, start_date, deadline, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    // Simplified insert without client dependency
+                    $stmt = $pdo->prepare("INSERT INTO dash_projects (user_id, client_name, project_name, project_description, source_language, target_language, service_type, word_count, character_count, rate_per_word, rate_per_character, total_amount, currency, status, priority, start_date, deadline, notes, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
                     $result = $stmt->execute([
                         $user_id,
-                        $_POST['client_id'],
+                        $_POST['client_name'] ?? '',
                         $_POST['project_name'],
                         $_POST['project_description'] ?? '',
                         $_POST['source_language'],
@@ -57,7 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $error = 'Erro ao adicionar projeto.';
                     }
                 } catch (PDOException $e) {
-                    $error = 'Erro: ' . $e->getMessage();
+                    // If table doesn't exist, show appropriate message
+                    $error = 'Funcionalidade de projetos em desenvolvimento. Tabela não encontrada.';
                 }
                 break;
                 
@@ -69,9 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $rate_per_character = floatval($_POST['rate_per_character'] ?? 0);
                     $total_amount = calculateProjectTotal($word_count, $character_count, $rate_per_word, $rate_per_character);
                     
-                    $stmt = $pdo->prepare("UPDATE dash_projects SET client_id = ?, project_name = ?, project_description = ?, source_language = ?, target_language = ?, service_type = ?, word_count = ?, character_count = ?, rate_per_word = ?, rate_per_character = ?, total_amount = ?, currency = ?, status = ?, priority = ?, start_date = ?, deadline = ?, notes = ? WHERE id = ? AND user_id = ?");
+                    $stmt = $pdo->prepare("UPDATE dash_projects SET client_name = ?, project_name = ?, project_description = ?, source_language = ?, target_language = ?, service_type = ?, word_count = ?, character_count = ?, rate_per_word = ?, rate_per_character = ?, total_amount = ?, currency = ?, status = ?, priority = ?, start_date = ?, deadline = ?, notes = ? WHERE id = ? AND user_id = ?");
                     $result = $stmt->execute([
-                        $_POST['client_id'],
+                        $_POST['client_name'] ?? '',
                         $_POST['project_name'],
                         $_POST['project_description'] ?? '',
                         $_POST['source_language'],
@@ -98,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $error = 'Erro ao atualizar projeto.';
                     }
                 } catch (PDOException $e) {
-                    $error = 'Erro: ' . $e->getMessage();
+                    $error = 'Funcionalidade de projetos em desenvolvimento. Erro: ' . $e->getMessage();
                 }
                 break;
                 
@@ -113,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $error = 'Erro ao excluir projeto.';
                     }
                 } catch (PDOException $e) {
-                    $error = 'Erro: ' . $e->getMessage();
+                    $error = 'Funcionalidade de projetos em desenvolvimento. Erro: ' . $e->getMessage();
                 }
                 break;
         }
