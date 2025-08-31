@@ -363,61 +363,72 @@ include __DIR__ . '/vision/includes/head.php';
                         <span id="securityStatus">
                             <i class="fas fa-shield-alt" style="color: var(--brand-purple);"></i> Sistema anti-fraude ativo
                         </span>
-                            <span id="statusText">Carregando player...</span>
+                        <span id="statusText">Carregando player...</span>
+                    </div>
+                    
+                    <!-- Indicadores de segurança -->
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 0.8rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span>Segmentos assistidos:</span>
+                            <span id="segmentsProgress" style="font-weight: 600;">0/0</span>
                         </div>
-                        
-                        <!-- Indicadores de segurança -->
-                        <div class="mt-3 p-2 bg-gray-800 rounded text-xs">
-                            <div class="flex justify-between items-center">
-                                <span>Segmentos assistidos:</span>
-                                <span id="segmentsProgress">0/0</span>
-                            </div>
-                            <div class="flex justify-between items-center mt-1">
-                                <span>Progressão natural:</span>
-                                <span id="naturalProgress" class="text-green-400">✓ OK</span>
-                            </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Progressão natural:</span>
+                            <span id="naturalProgress" style="color: #2ecc71; font-weight: 600;">
+                                <i class="fas fa-check"></i> OK
+                            </span>
                         </div>
                     </div>
                 </div>
-                <?php endif; ?>
-                
-                <?php if (!empty($related_lectures)): ?>
-                    <div class="bg-gray-900 rounded-lg p-6">
-                        <h3 class="text-xl font-bold mb-4">Palestras Relacionadas</h3>
-                        <div class="space-y-4">
-                            <?php foreach($related_lectures as $related): ?>
-                                <div class="flex space-x-3 cursor-pointer hover:bg-gray-800 rounded-lg p-2 transition-colors"
-                                     onclick="window.location.href='/palestra.php?id=<?php echo $related['id']; ?>'">
-                                    <div class="w-20 h-14 bg-gradient-to-br from-purple-600 to-purple-800 rounded flex-shrink-0 flex items-center justify-center">
-                                        <?php if ($related['thumbnail_url']): ?>
-                                            <img 
-                                                src="<?php echo htmlspecialchars($related['thumbnail_url']); ?>" 
-                                                alt="<?php echo htmlspecialchars($related['title']); ?>"
-                                                class="w-full h-full object-cover rounded"
-                                            />
-                                        <?php else: ?>
-                                            <i class="fas fa-play text-white"></i>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-medium text-sm line-clamp-2 mb-1">
-                                            <?php echo htmlspecialchars($related['title']); ?>
-                                        </h4>
-                                        <p class="text-purple-400 text-xs mb-1">
-                                            <?php echo htmlspecialchars($related['speaker']); ?>
-                                        </p>
-                                        <p class="text-gray-400 text-xs">
-                                            <?php echo $related['duration_minutes']; ?> min
-                                        </p>
-                                    </div>
+            </div>
+            <?php endif; ?>
+            
+            <?php if (!empty($related_lectures)): ?>
+            <!-- Card Palestras Relacionadas -->
+            <div class="video-card">
+                <div class="video-info">
+                    <h3 style="font-size: 1.3rem; font-weight: bold; margin-bottom: 20px; color: #fff;">
+                        <i class="fas fa-list" style="margin-right: 10px; color: var(--brand-purple);"></i>
+                        Palestras Relacionadas
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <?php foreach($related_lectures as $related): ?>
+                            <div style="display: flex; gap: 12px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer; transition: all 0.3s ease;"
+                                 onclick="window.location.href='/palestra.php?id=<?php echo $related['id']; ?>'"
+                                 onmouseover="this.style.background='rgba(142, 68, 173, 0.2)'"
+                                 onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+                                <div style="width: 80px; height: 56px; background: linear-gradient(135deg, var(--brand-purple), #bd72e8); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    <?php if ($related['thumbnail_url']): ?>
+                                        <img 
+                                            src="<?php echo htmlspecialchars($related['thumbnail_url']); ?>" 
+                                            alt="<?php echo htmlspecialchars($related['title']); ?>"
+                                            style="width: 100%; height: 100%; object-fit: cover;"
+                                        />
+                                    <?php else: ?>
+                                        <i class="fas fa-play" style="color: white; font-size: 1.2rem;"></i>
+                                    <?php endif; ?>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
-                        
-                        <div class="mt-4">
-                            <a href="/videoteca.php?category=<?php echo urlencode($lecture['category']); ?>" 
-                               class="text-purple-400 hover:text-purple-300 text-sm">
-                                Ver mais palestras de <?php echo htmlspecialchars($lecture['category']); ?>
+                                <div style="flex: 1; min-width: 0;">
+                                    <h4 style="font-weight: 500; font-size: 0.9rem; line-height: 1.3; margin-bottom: 6px; color: #fff; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                        <?php echo htmlspecialchars($related['title']); ?>
+                                    </h4>
+                                    <p style="color: var(--brand-purple); font-size: 0.8rem; margin-bottom: 4px; font-weight: 500;">
+                                        <?php echo htmlspecialchars($related['speaker']); ?>
+                                    </p>
+                                    <p style="color: #bbb; font-size: 0.8rem;">
+                                        <i class="fas fa-clock" style="margin-right: 4px;"></i>
+                                        <?php echo $related['duration_minutes']; ?> min
+                                    </p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    
+                    <div style="margin-top: 20px; text-align: center;">
+                        <a href="/videoteca.php?category=<?php echo urlencode($lecture['category']); ?>" 
+                           class="cta-btn" style="font-size: 0.9rem; padding: 10px 20px;">
+                            <i class="fas fa-arrow-right" style="margin-right: 8px;"></i>
+                            Ver mais de <?php echo htmlspecialchars($lecture['category']); ?>
                                 <i class="fas fa-arrow-right ml-1"></i>
                             </a>
                         </div>
