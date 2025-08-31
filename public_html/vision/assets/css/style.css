@@ -595,4 +595,37 @@ body.sidebar-collapsed .main-content {
   .video-grid {
     grid-template-columns: 1fr;
   }
+  
+  /* Página de palestra responsiva */
+  .main-content > div {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+}
+
+/* ==== Página de Palestra ==== */
+.main-content > div[style*="grid-template-columns"] {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 900px) {
+  .main-content > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: rgba(142, 68, 173, 0.15);
+  color: var(--brand-purple);
+  border: 1px solid rgba(142, 68, 173, 0.3);
 }
