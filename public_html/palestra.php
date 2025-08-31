@@ -429,15 +429,16 @@ include __DIR__ . '/vision/includes/head.php';
                            class="cta-btn" style="font-size: 0.9rem; padding: 10px 20px;">
                             <i class="fas fa-arrow-right" style="margin-right: 8px;"></i>
                             Ver mais de <?php echo htmlspecialchars($lecture['category']); ?>
-                                <i class="fas fa-arrow-right ml-1"></i>
-                            </a>
-                        </div>
+                        </a>
                     </div>
-                <?php endif; ?>
+                </div>
             </div>
+            <?php endif; ?>
         </div>
     </div>
-</div>
+</main>
+
+<?php include __DIR__ . '/vision/includes/footer.php'; ?>
 
 <script async src="https://player.pandavideo.com.br/api.v2.js"></script>
 <script>
