@@ -629,3 +629,11 @@ body.sidebar-collapsed .main-content {
   color: var(--brand-purple);
   border: 1px solid rgba(142, 68, 173, 0.3);
 }
+
+/* ==== Página de Contato ==== */
+/* Grid responsivo para contato */
+@media (max-width: 900px) {
+  .main-content > div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
