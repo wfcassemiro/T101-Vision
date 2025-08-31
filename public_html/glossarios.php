@@ -262,7 +262,9 @@ include __DIR__ . '/vision/includes/head.php';
         <div class="video-grid">
             <div class="video-card fade-item">
                 <div class="video-info">
-                    <h4 style="color: var(--brand-purple); margin-bottom: 10px;">📋 O que são</h4>
+                    <h4 style="color: var(--brand-purple); margin-bottom: 10px;">
+                        <i class="fas fa-clipboard-list" style="margin-right: 8px;"></i>O que são
+                    </h4>
                     <p style="font-size: 0.9rem; color: #ddd;">
                         Nossos glossários contêm termos especializados organizados por categoria, 
                         disponíveis para download para auxiliar tradutores em diferentes áreas.
