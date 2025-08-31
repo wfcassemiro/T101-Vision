@@ -256,7 +256,9 @@ include __DIR__ . '/vision/includes/head.php';
 
     <!-- Seção Informativa -->
     <section class="vision-form" style="margin-top: 60px;">
-        <h3 style="font-size: 1.5rem; margin-bottom: 25px; text-align: center;">ℹ️ Sobre os Glossários</h3>
+        <h3 style="font-size: 1.5rem; margin-bottom: 25px; text-align: center;">
+            <i class="fas fa-info-circle" style="margin-right: 10px;"></i>Sobre os Glossários
+        </h3>
         <div class="video-grid">
             <div class="video-card fade-item">
                 <div class="video-info">
