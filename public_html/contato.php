@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config/database.php';
+require_once __DIR__ . '/config/database.php';
 
 $page_title = 'Contato';
 $page_description = 'Entre em contato com o Translators101. Estamos aqui para ajudar com suas dúvidas e sugestões.';
@@ -44,153 +44,159 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
     }
 }
 
-include 'includes/header.php';
+include __DIR__ . '/vision/includes/head.php';
 ?>
 
-<div class="min-h-screen px-4 py-8">
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-16">
-            <h1 class="text-4xl font-bold mb-6">Entre em Contato</h1>
-            <p class="text-xl text-gray-400">
-                Estamos aqui para ajudar! Entre em contato conosco através de qualquer um dos canais abaixo.
-            </p>
-        </div>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <!-- Informações de Contato -->
-            <div>
-                <h2 class="text-2xl font-bold mb-8">Fale Conosco</h2>
-                
-                <!-- Canais de Contato -->
-                <div class="space-y-6 mb-12">
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-purple-600 rounded-full p-4 flex-shrink-0">
-                            <i class="fas fa-envelope text-white text-xl"></i>
+<?php include __DIR__ . '/vision/includes/header.php'; ?>
+
+<?php include __DIR__ . '/vision/includes/sidebar.php'; ?>
+
+<main class="main-content">
+    <!-- Hero Section -->
+    <section class="glass-hero">
+        <h1><i class="fas fa-envelope" style="margin-right: 10px;"></i>Entre em Contato</h1>
+        <p>Estamos aqui para ajudar! Entre em contato conosco através de qualquer um dos canais abaixo.</p>
+    </section>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px;">
+        <!-- Informações de Contato -->
+        <div>
+            <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 30px; color: #fff;">
+                <i class="fas fa-comments" style="margin-right: 10px; color: var(--brand-purple);"></i>
+                Fale Conosco
+            </h2>
+            
+            <!-- Canais de Contato -->
+            <div style="display: flex; flex-direction: column; gap: 20px; margin-bottom: 40px;">
+                <div class="video-card">
+                    <div style="display: flex; align-items: center; gap: 20px; padding: 25px;">
+                        <div style="background: var(--brand-purple); border-radius: 50%; padding: 15px; flex-shrink: 0;">
+                            <i class="fas fa-envelope" style="color: white; font-size: 1.5rem;"></i>
                         </div>
-                        <div>
-                            <h3 class="text-lg font-semibold">Email</h3>
-                            <a href="mailto:contato@translators101.com.br" class="text-purple-400 hover:text-purple-300">
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; color: #fff;">Email</h3>
+                            <a href="mailto:contato@translators101.com.br" style="color: var(--brand-purple); text-decoration: none; font-weight: 500;">
                                 contato@translators101.com.br
                             </a>
-                            <p class="text-gray-400 text-sm">Respondemos em até 24 horas</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-green-600 rounded-full p-4 flex-shrink-0">
-                            <i class="fab fa-whatsapp text-white text-xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold">WhatsApp</h3>
-                            <a href="https://wa.me/5519982600771" target="_blank" class="text-green-400 hover:text-green-300">
-                                (19) 98260-0771
-                            </a>
-                            <p class="text-gray-400 text-sm">Atendimento em horário comercial</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-blue-600 rounded-full p-4 flex-shrink-0">
-                            <i class="fas fa-clock text-white text-xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold">Horário de Atendimento</h3>
-                            <p class="text-gray-300">Segunda a Sexta: 9h às 18h</p>
-                            <p class="text-gray-400 text-sm">Horário de Brasília</p>
+                            <p style="color: #bbb; font-size: 0.9rem; margin-top: 5px;">Respondemos em até 24 horas</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Tipos de Suporte -->
-                <div class="bg-gray-900 rounded-lg p-6">
-                    <h3 class="text-xl font-semibold mb-4">Como podemos ajudar?</h3>
-                    <div class="space-y-3 text-sm">
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-question-circle text-purple-400"></i>
-                            <span>Dúvidas sobre planos e assinaturas</span>
+                <div class="video-card">
+                    <div style="display: flex; align-items: center; gap: 20px; padding: 25px;">
+                        <div style="background: #25d366; border-radius: 50%; padding: 15px; flex-shrink: 0;">
+                            <i class="fab fa-whatsapp" style="color: white; font-size: 1.5rem;"></i>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-cog text-purple-400"></i>
-                            <span>Suporte técnico e problemas de acesso</span>
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; color: #fff;">WhatsApp</h3>
+                            <a href="https://wa.me/5519982600771" target="_blank" style="color: #25d366; text-decoration: none; font-weight: 500;">
+                                (19) 98260-0771
+                            </a>
+                            <p style="color: #bbb; font-size: 0.9rem; margin-top: 5px;">Atendimento em horário comercial</p>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-lightbulb text-purple-400"></i>
-                            <span>Sugestões de conteúdo e melhorias</span>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div style="display: flex; align-items: center; gap: 20px; padding: 25px;">
+                        <div style="background: #3498db; border-radius: 50%; padding: 15px; flex-shrink: 0;">
+                            <i class="fas fa-clock" style="color: white; font-size: 1.5rem;"></i>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-certificate text-purple-400"></i>
-                            <span>Problemas com certificados</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-handshake text-purple-400"></i>
-                            <span>Parcerias e colaborações</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-building text-purple-400"></i>
-                            <span>Soluções corporativas</span>
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; color: #fff;">Horário de Atendimento</h3>
+                            <p style="color: #fff; font-weight: 500;">Segunda a Sexta: 9h às 18h</p>
+                            <p style="color: #bbb; font-size: 0.9rem; margin-top: 5px;">Horário de Brasília</p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Formulário de Contato -->
-            <div>
-                <h2 class="text-2xl font-bold mb-8">Envie uma Mensagem</h2>
-                
-                <?php if ($success_message): ?>
-                    <div class="bg-green-600 bg-opacity-20 border border-green-600 border-opacity-30 rounded-lg p-4 mb-6">
-                        <div class="flex items-center">
-                            <i class="fas fa-check-circle text-green-400 mr-3"></i>
-                            <p class="text-green-300"><?php echo htmlspecialchars($success_message); ?></p>
+            <!-- Tipos de Suporte -->
+            <div class="video-card">
+                <div class="video-info">
+                    <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; color: #fff;">
+                        <i class="fas fa-question-circle" style="margin-right: 10px; color: var(--brand-purple);"></i>
+                        Como podemos ajudar?
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fas fa-question-circle" style="color: var(--brand-purple); font-size: 1.1rem;"></i>
+                            <span style="color: #ddd;">Dúvidas sobre planos e assinaturas</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fas fa-cog" style="color: var(--brand-purple); font-size: 1.1rem;"></i>
+                            <span style="color: #ddd;">Suporte técnico e problemas de acesso</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fas fa-lightbulb" style="color: var(--brand-purple); font-size: 1.1rem;"></i>
+                            <span style="color: #ddd;">Sugestões de conteúdo e melhorias</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fas fa-certificate" style="color: var(--brand-purple); font-size: 1.1rem;"></i>
+                            <span style="color: #ddd;">Problemas com certificados</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fas fa-handshake" style="color: var(--brand-purple); font-size: 1.1rem;"></i>
+                            <span style="color: #ddd;">Parcerias e colaborações</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fas fa-building" style="color: var(--brand-purple); font-size: 1.1rem;"></i>
+                            <span style="color: #ddd;">Soluções corporativas</span>
                         </div>
                     </div>
-                <?php endif; ?>
-                
-                <?php if ($error_message): ?>
-                    <div class="bg-red-600 bg-opacity-20 border border-red-600 border-opacity-30 rounded-lg p-4 mb-6">
-                        <div class="flex items-center">
-                            <i class="fas fa-exclamation-triangle text-red-400 mr-3"></i>
-                            <p class="text-red-300"><?php echo htmlspecialchars($error_message); ?></p>
-                        </div>
-                    </div>
-                <?php endif; ?>
-                
-                <form method="POST" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Formulário de Contato -->
+        <div>
+            <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 30px; color: #fff;">
+                <i class="fas fa-paper-plane" style="margin-right: 10px; color: var(--brand-purple);"></i>
+                Envie uma Mensagem
+            </h2>
+            
+            <?php if ($success_message): ?>
+                <div class="alert-success" style="margin-bottom: 25px;">
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($success_message); ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if ($error_message): ?>
+                <div class="alert-error" style="margin-bottom: 25px;">
+                    <i class="fas fa-exclamation-triangle"></i> <?php echo htmlspecialchars($error_message); ?>
+                </div>
+            <?php endif; ?>
+            
+            <div class="vision-form">
+                <form method="POST" style="display: flex; flex-direction: column; gap: 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div>
-                            <label for="name" class="block text-sm font-medium mb-2">Nome Completo *</label>
+                            <label for="name">Nome Completo *</label>
                             <input
                                 type="text"
                                 name="name"
                                 id="name"
                                 value="<?php echo htmlspecialchars($name ?? ''); ?>"
-                                class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none"
                                 required
                             />
                         </div>
                         
                         <div>
-                            <label for="email" class="block text-sm font-medium mb-2">Email *</label>
+                            <label for="email">Email *</label>
                             <input
                                 type="email"
                                 name="email"
                                 id="email"
                                 value="<?php echo htmlspecialchars($email ?? ''); ?>"
-                                class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none"
                                 required
                             />
                         </div>
                     </div>
                     
                     <div>
-                        <label for="subject" class="block text-sm font-medium mb-2">Assunto *</label>
-                        <select
-                            name="subject"
-                            id="subject"
-                            class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none"
-                            required
-                        >
+                        <label for="subject">Assunto *</label>
+                        <select name="subject" id="subject" required>
                             <option value="">Selecione o assunto</option>
                             <option value="Dúvidas sobre planos" <?php echo ($subject ?? '') === 'Dúvidas sobre planos' ? 'selected' : ''; ?>>Dúvidas sobre planos</option>
                             <option value="Suporte técnico" <?php echo ($subject ?? '') === 'Suporte técnico' ? 'selected' : ''; ?>>Suporte técnico</option>
@@ -204,78 +210,88 @@ include 'includes/header.php';
                     </div>
                     
                     <div>
-                        <label for="message" class="block text-sm font-medium mb-2">Mensagem *</label>
+                        <label for="message">Mensagem *</label>
                         <textarea
                             name="message"
                             id="message"
                             rows="6"
-                            class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-purple-500 focus:outline-none"
                             placeholder="Descreva sua dúvida ou mensagem..."
                             required
                         ><?php echo htmlspecialchars($message ?? ''); ?></textarea>
                     </div>
                     
-                    <button 
-                        type="submit"
-                        name="send_message"
-                        class="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-lg font-semibold transition-colors"
-                    >
-                        <i class="fas fa-paper-plane mr-2"></i>Enviar Mensagem
+                    <button type="submit" name="send_message" class="cta-btn" style="width: 100%;">
+                        <i class="fas fa-paper-plane" style="margin-right: 8px;"></i>Enviar Mensagem
                     </button>
                 </form>
                 
-                <p class="text-gray-400 text-sm mt-4">
+                <p style="color: #bbb; font-size: 0.9rem; margin-top: 15px; text-align: center;">
                     * Campos obrigatórios. Responderemos sua mensagem em até 24 horas.
                 </p>
             </div>
         </div>
+    </div>
+    
+    <!-- FAQ Rápido -->
+    <section class="vision-form" style="margin-top: 60px;">
+        <h2 style="font-size: 2rem; font-weight: bold; text-align: center; margin-bottom: 40px; color: #fff;">
+            <i class="fas fa-question-circle" style="margin-right: 10px; color: var(--brand-purple);"></i>
+            Perguntas Mais Frequentes
+        </h2>
         
-        <!-- FAQ Rápido -->
-        <div class="mt-16 bg-gray-900 rounded-lg p-8">
-            <h2 class="text-2xl font-bold text-center mb-8">Perguntas Mais Frequentes</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="text-center">
-                    <div class="text-3xl mb-3">❓</div>
-                    <h4 class="font-semibold mb-2">Como cancelar minha assinatura?</h4>
-                    <p class="text-gray-400 text-sm mb-3">
+        <div class="video-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+            <div class="video-card fade-item">
+                <div class="video-info" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <h4 style="font-weight: 600; margin-bottom: 15px; color: #fff;">Como cancelar minha assinatura?</h4>
+                    <p style="color: #ddd; margin-bottom: 20px; font-size: 0.9rem;">
                         O cancelamento pode ser feito a qualquer momento sem complicações.
                     </p>
-                    <a href="/faq.php#cancelamento" class="text-purple-400 hover:text-purple-300 text-sm">
-                        Ver detalhes →
+                    <a href="/faq.php#cancelamento" class="cta-btn" style="font-size: 0.9rem; padding: 8px 16px;">
+                        Ver detalhes <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
                     </a>
                 </div>
-                
-                <div class="text-center">
-                    <div class="text-3xl mb-3">📜</div>
-                    <h4 class="font-semibold mb-2">Como gerar certificados?</h4>
-                    <p class="text-gray-400 text-sm mb-3">
+            </div>
+
+            <div class="video-card fade-item">
+                <div class="video-info" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h4 style="font-weight: 600; margin-bottom: 15px; color: #fff;">Como gerar certificados?</h4>
+                    <p style="color: #ddd; margin-bottom: 20px; font-size: 0.9rem;">
                         Certificados são gerados automaticamente após assistir às palestras.
                     </p>
-                    <a href="/faq.php#certificados" class="text-purple-400 hover:text-purple-300 text-sm">
-                        Ver detalhes →
+                    <a href="/faq.php#certificados" class="cta-btn" style="font-size: 0.9rem; padding: 8px 16px;">
+                        Ver detalhes <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
                     </a>
                 </div>
-                
-                <div class="text-center">
-                    <div class="text-3xl mb-3">💰</div>
-                    <h4 class="font-semibold mb-2">Qual plano escolher?</h4>
-                    <p class="text-gray-400 text-sm mb-3">
+            </div>
+
+            <div class="video-card fade-item">
+                <div class="video-info" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h4 style="font-weight: 600; margin-bottom: 15px; color: #fff;">Qual plano escolher?</h4>
+                    <p style="color: #ddd; margin-bottom: 20px; font-size: 0.9rem;">
                         Todos os planos têm acesso completo. Quanto maior o período, maior a economia.
                     </p>
-                    <a href="/planos.php" class="text-purple-400 hover:text-purple-300 text-sm">
-                        Ver planos →
+                    <a href="/planos.php" class="cta-btn" style="font-size: 0.9rem; padding: 8px 16px;">
+                        Ver planos <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
                     </a>
                 </div>
             </div>
-            
-            <div class="text-center mt-8">
-                <a href="/faq.php" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold transition-colors">
-                    Ver Todas as Perguntas
-                </a>
-            </div>
         </div>
-    </div>
-</div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/faq.php" class="cta-btn">
+                <i class="fas fa-list" style="margin-right: 8px;"></i>Ver Todas as Perguntas
+            </a>
+        </div>
+    </section>
+</main>
 
-<?php include 'includes/footer.php'; ?>
+<?php include __DIR__ . '/vision/includes/footer.php'; ?>
