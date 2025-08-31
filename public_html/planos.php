@@ -126,7 +126,9 @@ include __DIR__ . '/vision/includes/head.php';
         <div class="video-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
             <div class="video-card fade-item">
                 <div class="video-info" style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;">🎥</div>
+                    <div style="font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-video"></i>
+                    </div>
                     <h3 style="margin-bottom: 15px;">Quase 400 Palestras</h3>
                     <p class="video-desc">
                         Acesso completo ao nosso extenso catálogo de palestras especializadas.
@@ -136,7 +138,9 @@ include __DIR__ . '/vision/includes/head.php';
             
             <div class="video-card fade-item">
                 <div class="video-info" style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;">📜</div>
+                    <div style="font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-certificate"></i>
+                    </div>
                     <h3 style="margin-bottom: 15px;">Certificados Automáticos</h3>
                     <p class="video-desc">
                         Receba certificados em PDF automaticamente após assistir às palestras.
@@ -146,7 +150,9 @@ include __DIR__ . '/vision/includes/head.php';
             
             <div class="video-card fade-item">
                 <div class="video-info" style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;">🔄</div>
+                    <div style="font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
                     <h3 style="margin-bottom: 15px;">Novas palestras toda semana</h3>
                     <p class="video-desc">
                         Conteúdo novo toda semana para manter você sempre atualizado.
@@ -156,7 +162,9 @@ include __DIR__ . '/vision/includes/head.php';
             
             <div class="video-card fade-item">
                 <div class="video-info" style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;">📱</div>
+                    <div style="font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
                     <h3 style="margin-bottom: 15px;">Acesso Multiplataforma</h3>
                     <p class="video-desc">
                         Assista em qualquer dispositivo, a qualquer hora e lugar.
@@ -166,7 +174,9 @@ include __DIR__ . '/vision/includes/head.php';
             
             <div class="video-card fade-item">
                 <div class="video-info" style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;">🎯</div>
+                    <div style="font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
                     <h3 style="margin-bottom: 15px;">Conteúdo Especializado</h3>
                     <p class="video-desc">
                         Focado exclusivamente em tradução, interpretação e revisão.
@@ -176,7 +186,9 @@ include __DIR__ . '/vision/includes/head.php';
             
             <div class="video-card fade-item">
                 <div class="video-info" style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;">❌</div>
+                    <div style="font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
                     <h3 style="margin-bottom: 15px;">Cancelamento Fácil</h3>
                     <p class="video-desc">
                         Cancele sua assinatura a qualquer momento, sem complicações.
