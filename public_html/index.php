@@ -31,7 +31,9 @@ include __DIR__ . '/vision/includes/head.php';
         <div class="video-grid">
             <div class="video-card fade-item">
                 <div class="video-info">
-                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px;">🎥</div>
+                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-video"></i>
+                    </div>
                     <h3>Quase 400 Palestras</h3>
                     <p class="video-desc">Acesso completo ao nosso extenso catálogo de palestras especializadas em tradução, interpretação e revisão.</p>
                 </div>
@@ -39,7 +41,9 @@ include __DIR__ . '/vision/includes/head.php';
 
             <div class="video-card fade-item">
                 <div class="video-info">
-                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px;">📜</div>
+                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-certificate"></i>
+                    </div>
                     <h3>Certificados Automáticos</h3>
                     <p class="video-desc">Receba certificados em PDF automaticamente após assistir às palestras completas.</p>
                 </div>
@@ -47,7 +51,9 @@ include __DIR__ . '/vision/includes/head.php';
 
             <div class="video-card fade-item">
                 <div class="video-info">
-                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px;">🔄</div>
+                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
                     <h3>Conteúdo Atualizado</h3>
                     <p class="video-desc">Novas palestras adicionadas toda semana para manter você sempre atualizado com as tendências do mercado.</p>
                 </div>
@@ -55,7 +61,9 @@ include __DIR__ . '/vision/includes/head.php';
 
             <div class="video-card fade-item">
                 <div class="video-info">
-                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px;">📱</div>
+                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
                     <h3>Acesso Multiplataforma</h3>
                     <p class="video-desc">Assista em qualquer dispositivo, a qualquer hora e lugar. Desktop, tablet ou smartphone.</p>
                 </div>
@@ -63,7 +71,9 @@ include __DIR__ . '/vision/includes/head.php';
 
             <div class="video-card fade-item">
                 <div class="video-info">
-                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px;">🎯</div>
+                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
                     <h3>Especializado</h3>
                     <p class="video-desc">Conteúdo focado exclusivamente em tradução, interpretação e revisão por profissionais renomados.</p>
                 </div>
@@ -71,7 +81,9 @@ include __DIR__ . '/vision/includes/head.php';
 
             <div class="video-card fade-item">
                 <div class="video-info">
-                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px;">💰</div>
+                    <div style="text-align: center; font-size: 3rem; margin-bottom: 15px; color: var(--brand-purple);">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
                     <h3>Preço Acessível</h3>
                     <p class="video-desc">A partir de R$ 53/mês. O melhor custo-benefício do mercado para educação continuada.</p>
                 </div>
