@@ -97,7 +97,7 @@ include __DIR__ . '/vision/includes/head.php';
 <main class="main-content">
     <!-- Hero da Videoteca -->
     <section class="glass-hero">
-        <h1>📚 Videoteca de Palestras</h1>
+        <h1><i class="fas fa-video" style="margin-right: 10px;"></i>Videoteca de Palestras</h1>
         <p>Acesse nosso catálogo completo com quase 400 palestras especializadas em tradução, interpretação e revisão.</p>
         
         <?php if (function_exists('isAdmin') && isAdmin()): ?>
