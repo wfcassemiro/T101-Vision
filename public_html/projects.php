@@ -120,39 +120,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Obter lista de clientes para o dropdown
-$stmt = $pdo->prepare("SELECT id, company_name FROM dash_clients WHERE user_id = ? ORDER BY company_name ASC");
-$stmt->execute([$user_id]);
-$clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 // Obter lista de projetos
 $search = $_GET['search'] ?? '';
 $status_filter = $_GET['status'] ?? '';
-$where_clause = "WHERE p.user_id = ?";
+$where_clause = "WHERE user_id = ?";
 $params = [$user_id];
 
 if ($search) {
-    $where_clause .= " AND (p.project_name LIKE ? OR c.company_name LIKE ?)";
+    $where_clause .= " AND project_name LIKE ?";
     $search_param = "%$search%";
-    $params[] = $search_param;
     $params[] = $search_param;
 }
 
 if ($status_filter) {
-    $where_clause .= " AND p.status = ?";
+    $where_clause .= " AND status = ?";
     $params[] = $status_filter;
 }
 
-$stmt = $pdo->prepare("SELECT p.*, c.company_name, c.contact_name FROM dash_projects p LEFT JOIN dash_clients c ON p.client_id = c.id $where_clause ORDER BY p.created_at DESC");
-$stmt->execute($params);
-$projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Simplified query without client table dependency
+try {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM dash_projects $where_clause");
+    $stmt->execute($params);
+    $total_projects = $stmt->fetchColumn();
+
+    $stmt = $pdo->prepare("SELECT * FROM dash_projects $where_clause ORDER BY created_at DESC");
+    $stmt->execute($params);
+    $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+} catch(PDOException $e) {
+    // If dash_projects table doesn't exist, create empty results
+    $projects = [];
+    $total_projects = 0;
+    $error = 'Tabela de projetos não encontrada. Funcionalidade em desenvolvimento.';
+}
 
 // Obter projeto para edição se solicitado
 $edit_project = null;
 if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
-    $stmt = $pdo->prepare("SELECT * FROM dash_projects WHERE id = ? AND user_id = ?");
-    $stmt->execute([$_GET['edit'], $user_id]);
-    $edit_project = $stmt->fetch(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM dash_projects WHERE id = ? AND user_id = ?");
+        $stmt->execute([$_GET['edit'], $user_id]);
+        $edit_project = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch(PDOException $e) {
+        $edit_project = null;
+    }
 }
 
 include __DIR__ . '/vision/includes/head.php';
