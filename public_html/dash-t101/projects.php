@@ -727,47 +727,97 @@ include __DIR__ . '/../vision/includes/sidebar.php';
         </div>
 
         <?php if (empty($projects)): ?>
-            <p class="text-gray-400 text-center py-8">
+            <div class="alert-warning">
+                <i class="fas fa-info-circle"></i>
                 <?php echo ($search || $status_filter) ? 'Nenhum projeto encontrado com os critérios de busca.' : 'Nenhum projeto cadastrado ainda.'; ?>
-            </p>
+            </div>
         <?php else: ?>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
+            <div class="table-responsive">
+                <table class="data-table">
                     <thead>
-                    <tr class="border-b border-gray-700">
-                        <th class="pb-3 text-gray-300">Projeto</th>
-                        <th class="pb-3 text-gray-300">PO</th>
-                        <th class="pb-3 text-gray-300">Cliente</th>
-                        <th class="pb-3 text-gray-300">Idiomas</th>
-                        <th class="pb-3 text-gray-300">Status</th>
-                        <th class="pb-3 text-gray-300">Valor</th>
-                        <th class="pb-3 text-gray-300">Prazo</th>
-                        <th class="pb-3 text-gray-300">Ações</th>
-                    </tr>
+                        <tr>
+                            <th><i class="fas fa-project-diagram"></i> Projeto</th>
+                            <th><i class="fas fa-receipt"></i> PO</th>
+                            <th><i class="fas fa-user"></i> Cliente</th>
+                            <th><i class="fas fa-language"></i> Idiomas</th>
+                            <th><i class="fas fa-flag"></i> Status</th>
+                            <th><i class="fas fa-money-bill-wave"></i> Valor</th>
+                            <th><i class="fas fa-calendar-check"></i> Prazo</th>
+                            <th><i class="fas fa-cogs"></i> Ações</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($projects as $project): ?>
-                        <tr class="border-b border-gray-700 hover:bg-gray-700">
-                            <td class="py-4">
-                                <div>
-                                    <p class="text-white font-medium"><?php echo htmlspecialchars($project['project_name']); ?></p>
-                                    <p class="text-gray-400 text-sm"><?php echo ucfirst($project['service_type']); ?></p>
-                                </div>
-                            </td>
-                            <td class="py-4 text-gray-300"><?php echo htmlspecialchars($project['po_number'] ?: '-'); ?></td>
-                            <td class="py-4 text-gray-300"><?php echo htmlspecialchars($project['company_name']); ?></td>
-                            <td class="py-4 text-gray-300 text-sm">
-                                <?php echo $project['source_language']; ?> → <?php echo $project['target_language']; ?>
-                            </td>
-                            <td class="py-4">
-                                <span class="inline-block px-2 py-1 text-xs rounded-full
-                                <?php
-                                switch ($project['status']) {
-                                    case 'completed':
-                                        echo 'bg-green-600 text-white';
-                                        break;
-                                    case 'in_progress':
-                                        echo 'bg-blue-600 text-white';
+                        <?php foreach ($projects as $project): ?>
+                            <tr>
+                                <td>
+                                    <div class="project-info">
+                                        <span class="text-primary"><?php echo htmlspecialchars($project['project_name']); ?></span>
+                                        <span class="project-type"><?php echo ucfirst($project['service_type']); ?></span>
+                                    </div>
+                                </td>
+                                <td><?php echo htmlspecialchars($project['po_number'] ?: '-'); ?></td>
+                                <td><?php echo htmlspecialchars($project['company_name']); ?></td>
+                                <td class="language-pair">
+                                    <?php echo $project['source_language']; ?> → <?php echo $project['target_language']; ?>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-<?php echo $project['status']; ?>"><?php
+                                        $status_labels = [
+                                            'pending' => 'Pendente',
+                                            'in_progress' => 'Em Andamento',
+                                            'completed' => 'Concluído',
+                                            'cancelled' => 'Cancelado',
+                                            'on_hold' => 'Pausado'
+                                        ];
+                                        echo $status_labels[$project['status']] ?? $project['status'];
+                                        ?></span>
+                                </td>
+                                <td><?php echo formatCurrency($project['total_amount'], $project['currency'] ?? 'BRL'); ?></td>
+                                <td>
+                                    <?php if ($project['deadline']): ?>
+                                        <?php echo date('d/m/Y', strtotime($project['deadline'])); ?>
+                                    <?php else: ?>
+                                        -
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="?edit=<?php echo $project['id']; ?>" class="page-btn" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <?php if ($project['status'] != 'completed'): ?>
+                                            <form method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja marcar este projeto como concluído?')">
+                                                <input type="hidden" name="action" value="complete_project">
+                                                <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
+                                                <button type="submit" class="page-btn btn-success" title="Concluir">
+                                                    <i class="fas fa-check-circle"></i>
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
+                                        <form method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja gerar uma fatura para este projeto? Isso criará uma nova fatura.')">
+                                            <input type="hidden" name="action" value="generate_invoice">
+                                            <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
+                                            <button type="submit" class="page-btn" title="Gerar Fatura">
+                                                <i class="fas fa-file-invoice"></i>
+                                            </button>
+                                        </form>
+                                        <form method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este projeto?')">
+                                            <input type="hidden" name="action" value="delete_project">
+                                            <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
+                                            <button type="submit" class="page-btn btn-danger" title="Excluir">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
                                         break;
                                     case 'pending':
                                         echo 'bg-yellow-600 text-white';
