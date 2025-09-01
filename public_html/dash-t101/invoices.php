@@ -461,33 +461,38 @@ include __DIR__ . '/../vision/includes/sidebar.php';
         </form>
     </div>
 
-    <div class="bg-gray-800 rounded-lg p-6 mb-8">
-        <h2 class="text-xl font-semibold text-white mb-4">Gerar Fatura para Múltiplos Projetos Concluídos</h2>
+    <div class="video-card">
+        <h2><i class="fas fa-layer-group"></i> Gerar Fatura para Múltiplos Projetos Concluídos</h2>
         <?php if (empty($completed_projects)): ?>
-            <p class="text-gray-400 text-center py-4">Nenhum projeto concluído disponível para faturar.</p>
+            <div class="alert-warning">
+                <i class="fas fa-info-circle"></i>
+                Nenhum projeto concluído disponível para faturar.
+            </div>
         <?php else: ?>
             <form method="POST" onsubmit="return confirm('Gerar fatura para os projetos selecionados?')">
                 <input type="hidden" name="action" value="generate_invoice_multiple">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                <div class="projects-grid">
                     <?php foreach ($completed_projects as $project): ?>
-                        <div class="bg-gray-700 p-4 rounded-lg flex items-center justify-between">
-                            <label class="flex items-center space-x-2 text-white">
-                                <input type="checkbox" name="selected_projects[]" value="<?php echo $project['id']; ?>" class="form-checkbox text-purple-600">
-                                <span>
-                                    <?php echo htmlspecialchars($project['project_name']); ?>
-                                    <span class="text-gray-400 text-sm">(<?php echo htmlspecialchars($project['company_name']); ?>)</span>
+                        <div class="project-item">
+                            <label class="project-checkbox">
+                                <input type="checkbox" name="selected_projects[]" value="<?php echo $project['id']; ?>">
+                                <div class="project-info">
+                                    <span class="project-name"><?php echo htmlspecialchars($project['project_name']); ?></span>
+                                    <span class="project-company"><?php echo htmlspecialchars($project['company_name']); ?></span>
                                     <?php if (!empty($project['po_number'])): ?>
-                                        <span class="text-gray-500 text-xs">(PO: <?php echo htmlspecialchars($project['po_number']); ?>)</span>
+                                        <span class="project-po">PO: <?php echo htmlspecialchars($project['po_number']); ?></span>
                                     <?php endif; ?>
-                                </span>
+                                </div>
+                                <span class="project-amount"><?php echo formatCurrency($project['total_amount'], $project['currency']); ?></span>
                             </label>
-                            <span class="text-purple-400 font-semibold"><?php echo formatCurrency($project['total_amount'], $project['currency']); ?></span>
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg transition-colors text-white">
-                    Gerar Fatura para Selecionados
-                </button>
+                <div class="form-actions">
+                    <button type="submit" class="cta-btn">
+                        <i class="fas fa-file-invoice"></i> Gerar Fatura para Selecionados
+                    </button>
+                </div>
             </form>
         <?php endif; ?>
     </div>
