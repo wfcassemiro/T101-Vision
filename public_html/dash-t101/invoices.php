@@ -323,106 +323,102 @@ include __DIR__ . '/../vision/includes/header.php';
 include __DIR__ . '/../vision/includes/sidebar.php';
 ?>
 
-<div class="container mx-auto px-4 py-8">
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h1 class="text-3xl font-bold text-white mb-2">Gerenciar Faturas</h1>
-            <p class="text-gray-400">Crie faturas e controle pagamentos</p>
+<div class="main-content">
+    <div class="glass-hero">
+        <div class="hero-content">
+            <h1><i class="fas fa-file-invoice"></i> Gerenciar Faturas</h1>
+            <p>Crie faturas e controle pagamentos</p>
+            <a href="index.php" class="cta-btn">
+                <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+            </a>
         </div>
-        <a href="index.php" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">
-            <i class="fas fa-arrow-left mr-2"></i>Voltar ao Dashboard
-        </a>
     </div>
 
     <?php if ($message): ?>
-        <div class="bg-green-600 text-white p-4 rounded-lg mb-6">
+        <div class="alert-success">
+            <i class="fas fa-check-circle"></i>
             <?php echo htmlspecialchars($message); ?>
         </div>
     <?php endif; ?>
 
     <?php if ($error): ?>
-        <div class="bg-red-600 text-white p-4 rounded-lg mb-6">
+        <div class="alert-error">
+            <i class="fas fa-exclamation-triangle"></i>
             <?php echo htmlspecialchars($error); ?>
         </div>
     <?php endif; ?>
 
-    <div class="bg-gray-800 rounded-lg p-6 mb-8">
-        <h2 class="text-xl font-semibold text-white mb-4">Criar Nova Fatura</h2>
+    <div class="video-card">
+        <h2><i class="fas fa-plus-circle"></i> Criar Nova Fatura</h2>
         
-        <form method="POST" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="invoiceForm">
+        <form method="POST" class="vision-form" id="invoiceForm">
             <input type="hidden" name="action" value="add_invoice">
             
-            <div>
-                <label for="client_id" class="block text-sm font-medium text-gray-300 mb-2">Cliente *</label>
-                <select name="client_id" id="client_id" required
-                        class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    <option value="">Selecione um cliente</option>
-                    <?php foreach ($clients as $client): ?>
-                        <option value="<?php echo $client['id']; ?>">
-                            <?php echo htmlspecialchars($client['company_name']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="client_id"><i class="fas fa-user"></i> Cliente *</label>
+                    <select name="client_id" id="client_id" required>
+                        <option value="">Selecione um cliente</option>
+                        <?php foreach ($clients as $client): ?>
+                            <option value="<?php echo $client['id']; ?>">
+                                <?php echo htmlspecialchars($client['company_name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="invoice_date"><i class="fas fa-calendar"></i> Data de Emissão *</label>
+                    <input type="date" name="invoice_date" id="invoice_date" required
+                           value="<?php echo date('Y-m-d'); ?>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="due_date"><i class="fas fa-calendar-check"></i> Data de Vencimento *</label>
+                    <input type="date" name="due_date" id="due_date" required
+                           value="<?php echo date('Y-m-d', strtotime('+30 days')); ?>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="subtotal"><i class="fas fa-money-bill-wave"></i> Subtotal (R$) *</label>
+                    <input type="number" name="subtotal" id="subtotal" required min="0" step="0.01"
+                           onchange="calculateInvoiceTotal()">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tax_rate"><i class="fas fa-percentage"></i> Taxa de Imposto (%)</label>
+                    <input type="number" name="tax_rate" id="tax_rate" min="0" step="0.01"
+                           value="<?php echo $user_settings['default_tax_rate'] ?? 0; ?>"
+                           onchange="calculateInvoiceTotal()">
+                </div>
+                
+                <div class="form-group">
+                    <label for="total_display"><i class="fas fa-calculator"></i> Total (R$)</label>
+                    <input type="text" id="total_display" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="status"><i class="fas fa-flag"></i> Status</label>
+                    <select name="status" id="status">
+                        <option value="draft">Rascunho</option>
+                        <option value="sent" selected>Enviada</option>
+                        <option value="paid">Paga</option>
+                    </select>
+                </div>
+                
+                <div class="form-group form-group-wide">
+                    <label for="notes"><i class="fas fa-sticky-note"></i> Observações</label>
+                    <textarea name="notes" id="notes" rows="3"></textarea>
+                </div>
             </div>
             
-            <div>
-                <label for="invoice_date" class="block text-sm font-medium text-gray-300 mb-2">Data de Emissão *</label>
-                <input type="date" name="invoice_date" id="invoice_date" required
-                       value="<?php echo date('Y-m-d'); ?>"
-                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-            </div>
-            
-            <div>
-                <label for="due_date" class="block text-sm font-medium text-gray-300 mb-2">Data de Vencimento *</label>
-                <input type="date" name="due_date" id="due_date" required
-                       value="<?php echo date('Y-m-d', strtotime('+30 days')); ?>"
-                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-            </div>
-            
-            <div>
-                <label for="subtotal" class="block text-sm font-medium text-gray-300 mb-2">Subtotal (R$) *</label>
-                <input type="number" name="subtotal" id="subtotal" required min="0" step="0.01"
-                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"
-                       onchange="calculateInvoiceTotal()">
-            </div>
-            
-            <div>
-                <label for="tax_rate" class="block text-sm font-medium text-gray-300 mb-2">Taxa de Imposto (%)</label>
-                <input type="number" name="tax_rate" id="tax_rate" min="0" step="0.01"
-                       value="<?php echo $user_settings['default_tax_rate'] ?? 0; ?>"
-                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"
-                       onchange="calculateInvoiceTotal()">
-            </div>
-            
-            <div>
-                <label for="total_display" class="block text-sm font-medium text-gray-300 mb-2">Total (R$)</label>
-                <input type="text" id="total_display" readonly
-                       class="w-full p-3 bg-gray-600 border border-gray-600 rounded-lg text-white">
-            </div>
-            
-            <div>
-                <label for="status" class="block text-sm font-medium text-gray-300 mb-2">Status</label>
-                <select name="status" id="status"
-                        class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    <option value="draft">Rascunho</option>
-                    <option value="sent" selected>Enviada</option>
-                    <option value="paid">Paga</option>
-                </select>
-            </div>
-            
-            <div class="lg:col-span-2">
-                <label for="notes" class="block text-sm font-medium text-gray-300 mb-2">Observações</label>
-                <textarea name="notes" id="notes" rows="3"
-                          class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"></textarea>
-            </div>
-            
-            <div class="lg:col-span-3">
-                <h3 class="text-lg font-semibold text-white mb-4">Itens da Fatura</h3>
+            <div class="form-section">
+                <h3><i class="fas fa-list"></i> Itens da Fatura</h3>
                 <div id="invoice-items">
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4 invoice-item">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Projeto (Opcional)</label>
-                            <select name="items[0][project_id]" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                    <div class="form-grid invoice-item">
+                        <div class="form-group">
+                            <label><i class="fas fa-project-diagram"></i> Projeto (Opcional)</label>
+                            <select name="items[0][project_id]">
                                 <option value="">Selecione um projeto</option>
                                 <?php foreach ($completed_projects as $project): ?>
                                     <option value="<?php echo $project['id']; ?>" data-amount="<?php echo $project['total_amount']; ?>" data-currency="<?php echo $project['currency']; ?>">
@@ -431,38 +427,35 @@ include __DIR__ . '/../vision/includes/sidebar.php';
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Descrição *</label>
-                            <input type="text" name="items[0][description]" required
-                                   class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                        <div class="form-group">
+                            <label><i class="fas fa-edit"></i> Descrição *</label>
+                            <input type="text" name="items[0][description]" required>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Quantidade</label>
+                        <div class="form-group">
+                            <label><i class="fas fa-sort-numeric-up"></i> Quantidade</label>
                             <input type="number" name="items[0][quantity]" min="1" step="0.01" value="1"
-                                   class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"
                                    onchange="calculateItemTotal(this)">
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Preço Unitário (R$)</label>
+                        <div class="form-group">
+                            <label><i class="fas fa-tag"></i> Preço Unitário (R$)</label>
                             <input type="number" name="items[0][unit_price]" min="0" step="0.01"
-                                   class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"
                                    onchange="calculateItemTotal(this)">
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Total</label>
-                            <input type="text" class="item-total w-full p-3 bg-gray-600 border border-gray-600 rounded-lg text-white" readonly>
+                        <div class="form-group">
+                            <label><i class="fas fa-calculator"></i> Total</label>
+                            <input type="text" class="item-total" readonly>
                         </div>
                     </div>
                 </div>
                 
-                <button type="button" onclick="addInvoiceItem()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors text-white mb-4">
-                    <i class="fas fa-plus mr-2"></i>Adicionar Item
+                <button type="button" onclick="addInvoiceItem()" class="page-btn">
+                    <i class="fas fa-plus"></i> Adicionar Item
                 </button>
             </div>
             
-            <div class="lg:col-span-3 flex gap-4">
-                <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg transition-colors text-white">
-                    Criar Fatura
+            <div class="form-actions">
+                <button type="submit" class="cta-btn">
+                    <i class="fas fa-save"></i> Criar Fatura
                 </button>
             </div>
         </form>
