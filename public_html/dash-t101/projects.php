@@ -640,18 +640,21 @@ include __DIR__ . '/../vision/includes/sidebar.php';
         });
 
         if (empty($pending_projects_for_estimation)): ?>
-            <p class="text-gray-400 text-center py-4">Nenhum projeto pendente com prazo e contagem de palavras para estimativa de produtividade.</p>
+            <div class="alert-warning">
+                <i class="fas fa-info-circle"></i>
+                Nenhum projeto pendente com prazo e contagem de palavras para estimativa de produtividade.
+            </div>
         <?php else: ?>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
+            <div class="table-responsive">
+                <table class="data-table">
                     <thead>
-                        <tr class="border-b border-gray-700">
-                            <th class="pb-3 text-gray-300">Projeto</th>
-                            <th class="pb-3 text-gray-300">Prazo</th>
-                            <th class="pb-3 text-gray-300">Contagem de Palavras</th>
-                            <th class="pb-3 text-gray-300">Dias Restantes</th>
-                            <th class="pb-3 text-gray-300">Meta Diária (Projeto)</th>
-                            <th class="pb-3 text-gray-300">Sugestão Diária para Entregar no Prazo</th>
+                        <tr>
+                            <th><i class="fas fa-project-diagram"></i> Projeto</th>
+                            <th><i class="fas fa-calendar-check"></i> Prazo</th>
+                            <th><i class="fas fa-sort-numeric-up"></i> Contagem de Palavras</th>
+                            <th><i class="fas fa-clock"></i> Dias Restantes</th>
+                            <th><i class="fas fa-target"></i> Meta Diária (Projeto)</th>
+                            <th><i class="fas fa-chart-line"></i> Sugestão Diária para Entregar no Prazo</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -665,20 +668,20 @@ include __DIR__ . '/../vision/includes/sidebar.php';
                             
                             $suggested_daily_words = ($days_remaining > 0) ? ceil($words_to_translate / $days_remaining) : $words_to_translate;
                             ?>
-                            <tr class="border-b border-gray-700 hover:bg-gray-700">
-                                <td class="py-4 text-white font-medium"><?php echo htmlspecialchars($project['project_name']); ?></td>
-                                <td class="py-4 text-gray-300"><?php echo date('d/m/Y', $deadline_ts); ?></td>
-                                <td class="py-4 text-gray-300"><?php echo number_format($words_to_translate, 0, ',', '.'); ?></td>
-                                <td class="py-4 text-gray-300"><?php echo $days_remaining; ?></td>
-                                <td class="py-4 text-gray-300"><?php echo $project['daily_word_target'] > 0 ? number_format($project['daily_word_target'], 0, ',', '.') : '-'; ?></td>
-                                <td class="py-4 text-gray-300">
+                            <tr>
+                                <td><span class="text-primary"><?php echo htmlspecialchars($project['project_name']); ?></span></td>
+                                <td><?php echo date('d/m/Y', $deadline_ts); ?></td>
+                                <td><?php echo number_format($words_to_translate, 0, ',', '.'); ?></td>
+                                <td><?php echo $days_remaining; ?></td>
+                                <td><?php echo $project['daily_word_target'] > 0 ? number_format($project['daily_word_target'], 0, ',', '.') : '-'; ?></td>
+                                <td>
                                     <?php
                                     $daily_target_set = $project['daily_word_target'];
                                     if ($daily_target_set > 0) {
                                         if ($daily_target_set < $suggested_daily_words) {
-                                            echo '<span class="text-orange-400 font-semibold">' . number_format($suggested_daily_words, 0, ',', '.') . ' (Acima da meta!)</span>';
+                                            echo '<span class="text-warning">' . number_format($suggested_daily_words, 0, ',', '.') . ' (Acima da meta!)</span>';
                                         } elseif ($daily_target_set >= $suggested_daily_words) {
-                                            echo '<span class="text-green-400 font-semibold">' . number_format($suggested_daily_words, 0, ',', '.') . ' (Meta atingida!)</span>';
+                                            echo '<span class="text-success">' . number_format($suggested_daily_words, 0, ',', '.') . ' (Meta atingida!)</span>';
                                         }
                                     } else {
                                         echo number_format($suggested_daily_words, 0, ',', '.');
