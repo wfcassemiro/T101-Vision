@@ -689,7 +689,7 @@ function calculateInvoiceTotal() {
     const taxAmount = subtotal * (taxRate / 100);
     const total = subtotal + taxAmount;
     
-    document.getElementById('total_display').value = formatCurrencyForDisplay(total, document.querySelector('select[name="currency"]').value);
+    document.getElementById('total_display').value = 'R$ ' + total.toFixed(2).replace('.', ',');
 }
 
 function calculateItemTotal(element) {
@@ -698,9 +698,7 @@ function calculateItemTotal(element) {
     const unitPrice = parseFloat(row.querySelector('input[name*="[unit_price]"]').value) || 0;
     const total = quantity * unitPrice;
     
-    row.querySelector('.item-total').value = formatCurrencyForDisplay(total, document.querySelector('select[name="currency"]').value);
-    
-    // Recalcular subtotal
+    row.querySelector('.item-total').value = 'R$ ' + total.toFixed(2).replace('.', ',');
     updateSubtotal();
 }
 
@@ -710,6 +708,68 @@ function updateSubtotal() {
         const quantity = parseFloat(row.querySelector('input[name*="[quantity]"]').value) || 0;
         const unitPrice = parseFloat(row.querySelector('input[name*="[unit_price]"]').value) || 0;
         subtotal += quantity * unitPrice;
+    });
+    
+    document.getElementById('subtotal').value = subtotal.toFixed(2);
+    calculateInvoiceTotal();
+}
+
+function addInvoiceItem() {
+    const container = document.getElementById('invoice-items');
+    const newItem = container.querySelector('.invoice-item').cloneNode(true);
+    
+    // Update form field names
+    const inputs = newItem.querySelectorAll('input, select');
+    inputs.forEach(function(input) {
+        if (input.name) {
+            input.name = input.name.replace(/\[\d+\]/, '[' + itemCounter + ']');
+        }
+        if (input.type !== 'hidden') {
+            input.value = input.type === 'number' && input.name.includes('quantity') ? '1' : '';
+        }
+    });
+    
+    container.appendChild(newItem);
+    itemCounter++;
+}
+
+function openStatusModal(invoiceId, currentStatus) {
+    document.getElementById('modal_invoice_id').value = invoiceId;
+    document.getElementById('modal_status').value = currentStatus;
+    document.getElementById('statusModal').style.display = 'flex';
+    togglePaymentFields();
+}
+
+function closeStatusModal() {
+    document.getElementById('statusModal').style.display = 'none';
+}
+
+function togglePaymentFields() {
+    const status = document.getElementById('modal_status').value;
+    const paymentFields = document.getElementById('payment_fields');
+    
+    if (status === 'paid') {
+        paymentFields.style.display = 'block';
+        document.getElementById('payment_date').value = new Date().toISOString().split('T')[0];
+    } else {
+        paymentFields.style.display = 'none';
+    }
+}
+
+// Close modal when clicking outside
+document.getElementById('statusModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeStatusModal();
+    }
+});
+
+// Calculate total on page load
+document.addEventListener('DOMContentLoaded', function() {
+    calculateInvoiceTotal();
+});
+</script>
+
+<?php include __DIR__ . '/../vision/includes/footer.php'; ?>
     });
     
     document.getElementById('subtotal').value = subtotal.toFixed(2);
