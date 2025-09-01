@@ -343,61 +343,55 @@ include __DIR__ . '/../vision/includes/sidebar.php';
                 <div class="form-group">
                     <label for="total_calculated"><i class="fas fa-calculator"></i> Total Calculado</label>
                     <input type="text" id="total_calculated" readonly>
-                           class="w-full p-3 bg-gray-600 border border-gray-600 rounded-lg text-white">
                 </div>
-                <div class="flex-1">
-                    <label for="negotiated_amount" class="block text-sm font-medium text-gray-300 mb-2">Valor Negociado</label>
-                    <input type="number" name="negotiated_amount" id="negotiated_amount" min="0" step="0.01"
-                           value="<?php echo $edit_project['total_amount'] ?? ''; ?>"
-                           class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"
-                           oninput="updateCurrencyForNegotiated()">
+
+                <div class="form-group">
+                    <label for="negotiated_amount"><i class="fas fa-handshake"></i> Valor Negociado</label>
+                    <div class="input-group">
+                        <input type="number" name="negotiated_amount" id="negotiated_amount" min="0" step="0.01"
+                               value="<?php echo $edit_project['total_amount'] ?? ''; ?>"
+                               oninput="updateCurrencyForNegotiated()">
+                        <select name="currency" id="currency_negotiated">
+                            <?php foreach ($dash_config['currencies'] as $currencyCode): ?>
+                                <option value="<?php echo $currencyCode; ?>" <?php echo ($edit_project && $edit_project['currency'] == $currencyCode) ? 'selected' : ''; ?>>
+                                    <?php echo $currencyCode; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label for="currency_negotiated" class="block text-sm font-medium text-gray-300 mb-2 invisible">Moeda</label>
-                    <select name="currency" id="currency_negotiated" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                        <?php foreach ($dash_config['currencies'] as $currencyCode): ?>
-                            <option value="<?php echo $currencyCode; ?>" <?php echo ($edit_project && $edit_project['currency'] == $currencyCode) ? 'selected' : ''; ?>>
-                                <?php echo $currencyCode; ?>
+
+                <div class="form-group">
+                    <label for="daily_word_target"><i class="fas fa-target"></i> Meta de Palavras/Dia (opcional)</label>
+                    <input type="number" name="daily_word_target" id="daily_word_target" min="0"
+                           value="<?php echo $edit_project['daily_word_target'] ?? ''; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="status"><i class="fas fa-flag"></i> Status</label>
+                    <select name="status" id="status">
+                        <?php foreach ($dash_config['project_statuses'] as $statusCode => $statusName): ?>
+                            <option value="<?php echo $statusCode; ?>" <?php echo ($edit_project && $edit_project['status'] == $statusCode) ? 'selected' : ''; ?>>
+                                <?php echo $statusName; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-            </div>
 
-            <div>
-                <label for="daily_word_target" class="block text-sm font-medium text-gray-300 mb-2">Meta de Palavras/Dia (opcional)</label>
-                <input type="number" name="daily_word_target" id="daily_word_target" min="0"
-                       value="<?php echo $edit_project['daily_word_target'] ?? ''; ?>"
-                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-            </div>
+                <div class="form-group">
+                    <label for="priority"><i class="fas fa-exclamation-circle"></i> Prioridade</label>
+                    <select name="priority" id="priority">
+                        <?php foreach ($dash_config['priorities'] as $priorityCode => $priorityName): ?>
+                            <option value="<?php echo $priorityCode; ?>" <?php echo ($edit_project && $edit_project['priority'] == $priorityCode) ? 'selected' : ''; ?>>
+                                <?php echo $priorityName; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-            <div>
-                <label for="status" class="block text-sm font-medium text-gray-300 mb-2">Status</label>
-                <select name="status" id="status"
-                        class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    <?php foreach ($dash_config['project_statuses'] as $statusCode => $statusName): ?>
-                        <option value="<?php echo $statusCode; ?>" <?php echo ($edit_project && $edit_project['status'] == $statusCode) ? 'selected' : ''; ?>>
-                            <?php echo $statusName; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div>
-                <label for="priority" class="block text-sm font-medium text-gray-300 mb-2">Prioridade</label>
-                <select name="priority" id="priority"
-                        class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    <?php foreach ($dash_config['priorities'] as $priorityCode => $priorityName): ?>
-                        <option value="<?php echo $priorityCode; ?>" <?php echo ($edit_project && $edit_project['priority'] == $priorityCode) ? 'selected' : ''; ?>>
-                            <?php echo $priorityName; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div>
-                <label for="start_date" class="block text-sm font-medium text-gray-300 mb-2">Data de Início</label>
-                <input type="date" name="start_date" id="start_date"
+                <div class="form-group">
+                    <label for="start_date"><i class="fas fa-calendar-plus"></i> Data de Início</label>
+                    <input type="date" name="start_date" id="start_date"
                        value="<?php echo $edit_project['start_date'] ?? ''; ?>"
                        class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
             </div>
