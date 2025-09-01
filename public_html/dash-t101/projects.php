@@ -218,66 +218,64 @@ include __DIR__ . '/../vision/includes/header.php';
 include __DIR__ . '/../vision/includes/sidebar.php';
 ?>
 
-<div class="container mx-auto px-4 py-8">
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h1 class="text-3xl font-bold text-white mb-2">Gerenciar Projetos</h1>
-            <p class="text-gray-400">Crie e acompanhe seus projetos de tradução</p>
+<div class="main-content">
+    <div class="glass-hero">
+        <div class="hero-content">
+            <h1><i class="fas fa-project-diagram"></i> Gerenciar Projetos</h1>
+            <p>Crie e acompanhe seus projetos de tradução</p>
+            <a href="index.php" class="cta-btn">
+                <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+            </a>
         </div>
-        <a href="index.php" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">
-            <i class="fas fa-arrow-left mr-2"></i>Voltar ao Dashboard
-        </a>
     </div>
 
     <?php if ($message): ?>
-        <div class="bg-green-600 text-white p-4 rounded-lg mb-6">
+        <div class="alert-success">
+            <i class="fas fa-check-circle"></i>
             <?php echo htmlspecialchars($message); ?>
         </div>
     <?php endif; ?>
 
     <?php if ($error): ?>
-        <div class="bg-red-600 text-white p-4 rounded-lg mb-6">
+        <div class="alert-error">
+            <i class="fas fa-exclamation-triangle"></i>
             <?php echo htmlspecialchars($error); ?>
         </div>
     <?php endif; ?>
 
-    <div class="bg-gray-800 rounded-lg p-6 mb-8">
-        <h2 class="text-xl font-semibold text-white mb-4">
-            <?php echo $edit_project ? 'Editar Projeto' : 'Adicionar Novo Projeto'; ?>
-        </h2>
+    <div class="video-card">
+        <h2><i class="fas fa-<?php echo $edit_project ? 'edit' : 'plus-circle'; ?>"></i> <?php echo $edit_project ? 'Editar Projeto' : 'Adicionar Novo Projeto'; ?></h2>
 
-        <form method="POST" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <form method="POST" class="vision-form">
             <input type="hidden" name="action" value="<?php echo $edit_project ? 'edit_project' : 'add_project'; ?>">
             <?php if ($edit_project): ?>
                 <input type="hidden" name="project_id" value="<?php echo $edit_project['id']; ?>">
             <?php endif; ?>
 
-            <div class="lg:col-span-2">
-                <label for="project_name" class="block text-sm font-medium text-gray-300 mb-2">Nome do Projeto *</label>
-                <input type="text" name="project_name" id="project_name" required
-                       value="<?php echo htmlspecialchars($edit_project['project_name'] ?? ''); ?>"
-                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-            </div>
+            <div class="form-grid">
+                <div class="form-group form-group-wide">
+                    <label for="project_name"><i class="fas fa-project-diagram"></i> Nome do Projeto *</label>
+                    <input type="text" name="project_name" id="project_name" required
+                           value="<?php echo htmlspecialchars($edit_project['project_name'] ?? ''); ?>">
+                </div>
 
-            <div>
-                <label for="client_id" class="block text-sm font-medium text-gray-300 mb-2">Cliente *</label>
-                <select name="client_id" id="client_id" required
-                        class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    <option value="">Selecione um cliente</option>
-                    <?php foreach ($clients as $client): ?>
-                        <option value="<?php echo $client['id']; ?>"
-                                data-currency="<?php echo htmlspecialchars($client['default_currency']); ?>"
-                            <?php echo ($edit_project && $edit_project['client_id'] == $client['id']) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($client['company_name']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="client_id"><i class="fas fa-user"></i> Cliente *</label>
+                    <select name="client_id" id="client_id" required>
+                        <option value="">Selecione um cliente</option>
+                        <?php foreach ($clients as $client): ?>
+                            <option value="<?php echo $client['id']; ?>"
+                                    data-currency="<?php echo htmlspecialchars($client['default_currency']); ?>"
+                                <?php echo ($edit_project && $edit_project['client_id'] == $client['id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($client['company_name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-            <div>
-                <label for="source_language" class="block text-sm font-medium text-gray-300 mb-2">Idioma de Origem *</label>
-                <select name="source_language" id="source_language" required
-                        class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                <div class="form-group">
+                    <label for="source_language"><i class="fas fa-language"></i> Idioma de Origem *</label>
+                    <select name="source_language" id="source_language" required>
                     <option value="">Selecione</option>
                     <?php foreach ($dash_config['languages'] as $langCode => $langName): ?>
                         <option value="<?php echo $langCode; ?>" <?php echo ($edit_project && $edit_project['source_language'] == $langCode) ? 'selected' : ''; ?>>
