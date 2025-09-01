@@ -412,4 +412,91 @@ function calculateProjectProgress($project) {
             return 0;
     }
 }
+
+/**
+ * Enviar fatura por email
+ */
+function sendInvoiceEmail($user_id, $invoice_id) {
+    global $pdo;
+    
+    try {
+        // Buscar dados da fatura
+        $stmt = $pdo->prepare("
+            SELECT i.*, c.company, c.name as contact_name, c.email as client_email 
+            FROM dash_invoices i 
+            LEFT JOIN dash_clients c ON i.client_id = c.id 
+            WHERE i.id = ? AND i.user_id = ?
+        ");
+        $stmt->execute([$invoice_id, $user_id]);
+        $invoice = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$invoice) {
+            error_log("Invoice not found: ID {$invoice_id} for user {$user_id}");
+            return false;
+        }
+        
+        if (empty($invoice['client_email'])) {
+            error_log("No email address for client in invoice {$invoice_id}");
+            return false;
+        }
+        
+        // Buscar configurações do usuário
+        $user_settings = getUserSettings($user_id);
+        
+        // Preparar conteúdo do email
+        $subject = "Fatura #{$invoice['invoice_number']} - {$user_settings['company_name']}";
+        
+        $email_content = "
+        <h2>Fatura #{$invoice['invoice_number']}</h2>
+        <p>Prezado(a) {$invoice['contact_name']},</p>
+        <p>Segue em anexo a fatura referente aos serviços prestados.</p>
+        
+        <h3>Detalhes da Fatura:</h3>
+        <ul>
+            <li><strong>Número:</strong> {$invoice['invoice_number']}</li>
+            <li><strong>Data de Emissão:</strong> " . date('d/m/Y', strtotime($invoice['issue_date'])) . "</li>
+            <li><strong>Data de Vencimento:</strong> " . date('d/m/Y', strtotime($invoice['due_date'])) . "</li>
+            <li><strong>Valor Total:</strong> " . formatCurrency($invoice['total_amount'], $invoice['currency']) . "</li>
+        </ul>
+        
+        <p>Para visualizar a fatura completa, acesse: <a href='" . $_SERVER['HTTP_HOST'] . "/dash-t101/view_invoice.php?id={$invoice_id}'>Ver Fatura</a></p>
+        
+        <p>Atenciosamente,<br>
+        {$user_settings['company_name']}</p>
+        ";
+        
+        // Verificar se o sistema de email está configurado
+        if (!function_exists('isEmailConfigured') || !isEmailConfigured()) {
+            error_log("Email system not configured");
+            return false;
+        }
+        
+        // Incluir sistema de email se não estiver incluído
+        if (!class_exists('EmailSender')) {
+            require_once __DIR__ . '/email.php';
+        }
+        
+        // Enviar email
+        $emailSender = new EmailSender();
+        $result = $emailSender->sendEmail(
+            $invoice['client_email'],
+            $invoice['contact_name'],
+            $subject,
+            $email_content
+        );
+        
+        if ($result) {
+            // Log do envio bem-sucedido
+            error_log("Invoice email sent successfully: Invoice {$invoice_id} to {$invoice['client_email']}");
+            return true;
+        } else {
+            error_log("Failed to send invoice email: Invoice {$invoice_id} to {$invoice['client_email']}");
+            return false;
+        }
+        
+    } catch (Exception $e) {
+        error_log("Error in sendInvoiceEmail: " . $e->getMessage());
+        return false;
+    }
+}
 ?>
