@@ -131,7 +131,7 @@ if (isset($_GET['test_qr'])) {
 if (isset($_GET['example'])) {
     echo "<h1>🔗 Teste de QR Code</h1>";
     echo "<h2>QR Code de teste:</h2>";
-    echo "<img src='?test_qr=1&data=" . urlencode('https://translators101.com/verificar_certificado.php?id=739d7f01-fd3e-4383-8dad-b348c27c2d1d') . "' alt='QR Code'>";
+    echo "<img src='?test_qr=1&data=" . urlencode('https://translators101.com/verificar_certificado.php?id=vision-php-upgrade') . "' alt='QR Code'>";
     
     echo "<h2>URLs de teste:</h2>";
     echo "<ul>";
