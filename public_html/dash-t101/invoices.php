@@ -498,51 +498,53 @@ include __DIR__ . '/../vision/includes/sidebar.php';
     </div>
 
 
-    <div class="bg-gray-800 rounded-lg p-6">
-        <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
-            <h2 class="text-xl font-semibold text-white">Lista de Faturas</h2>
+    <div class="video-card">
+        <div class="card-header">
+            <h2><i class="fas fa-list"></i> Lista de Faturas</h2>
             
-            <div class="flex gap-2">
-                <form method="GET" class="flex gap-2">
-                    <input type="text" name="search" placeholder="Buscar faturas..."
-                           value="<?php echo htmlspecialchars($search); ?>"
-                           class="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    <select name="status" class="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                        <option value="">Todos os status</option>
-                        <option value="draft" <?php echo $status_filter == 'draft' ? 'selected' : ''; ?>>Rascunho</option>
-                        <option value="sent" <?php echo $status_filter == 'sent' ? 'selected' : ''; ?>>Enviada</option>
-                        <option value="paid" <?php echo $status_filter == 'paid' ? 'selected' : ''; ?>>Paga</option>
-                        <option value="overdue" <?php echo $status_filter == 'overdue' ? 'selected' : ''; ?>>Vencida</option>
-                        <option value="cancelled" <?php echo $status_filter == 'cancelled' ? 'selected' : ''; ?>>Cancelada</option>
-                    </select>
-                    <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <?php if ($search || $status_filter): ?>
-                        <a href="invoices.php" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    <?php endif; ?>
+            <div class="search-filters">
+                <form method="GET" class="search-form">
+                    <div class="search-group">
+                        <input type="text" name="search" placeholder="Buscar faturas..."
+                               value="<?php echo htmlspecialchars($search); ?>">
+                        <select name="status">
+                            <option value="">Todos os status</option>
+                            <option value="draft" <?php echo $status_filter == 'draft' ? 'selected' : ''; ?>>Rascunho</option>
+                            <option value="sent" <?php echo $status_filter == 'sent' ? 'selected' : ''; ?>>Enviada</option>
+                            <option value="paid" <?php echo $status_filter == 'paid' ? 'selected' : ''; ?>>Paga</option>
+                            <option value="overdue" <?php echo $status_filter == 'overdue' ? 'selected' : ''; ?>>Vencida</option>
+                            <option value="cancelled" <?php echo $status_filter == 'cancelled' ? 'selected' : ''; ?>>Cancelada</option>
+                        </select>
+                        <button type="submit" class="page-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <?php if ($search || $status_filter): ?>
+                            <a href="invoices.php" class="page-btn">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        <?php endif; ?>
+                    </div>
                 </form>
             </div>
         </div>
 
         <?php if (empty($invoices)): ?>
-            <p class="text-gray-400 text-center py-8">
+            <div class="alert-warning">
+                <i class="fas fa-info-circle"></i>
                 <?php echo ($search || $status_filter) ? 'Nenhuma fatura encontrada com os critérios de busca.' : 'Nenhuma fatura criada ainda.'; ?>
-            </p>
+            </div>
         <?php else: ?>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
+            <div class="table-responsive">
+                <table class="data-table">
                     <thead>
-                        <tr class="border-b border-gray-700">
-                            <th class="pb-3 text-gray-300">Número</th>
-                            <th class="pb-3 text-gray-300">Cliente</th>
-                            <th class="pb-3 text-gray-300">Data</th>
-                            <th class="pb-3 text-gray-300">Vencimento</th>
-                            <th class="pb-3 text-gray-300">Valor</th>
-                            <th class="pb-3 text-gray-300">Status</th>
-                            <th class="pb-3 text-gray-300">Ações</th>
+                        <tr>
+                            <th><i class="fas fa-hashtag"></i> Número</th>
+                            <th><i class="fas fa-user"></i> Cliente</th>
+                            <th><i class="fas fa-calendar"></i> Data</th>
+                            <th><i class="fas fa-calendar-check"></i> Vencimento</th>
+                            <th><i class="fas fa-money-bill-wave"></i> Valor</th>
+                            <th><i class="fas fa-flag"></i> Status</th>
+                            <th><i class="fas fa-cogs"></i> Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -551,33 +553,24 @@ include __DIR__ . '/../vision/includes/sidebar.php';
                             // Verificar se a fatura está vencida
                             $is_overdue = ($invoice['status'] == 'sent' && strtotime($invoice['due_date']) < time());
                             ?>
-                            <tr class="border-b border-gray-700 hover:bg-gray-700">
-                                <td class="py-4">
-                                    <p class="text-white font-medium"><?php echo htmlspecialchars($invoice['invoice_number']); ?></p>
+                            <tr>
+                                <td>
+                                    <span class="text-primary"><?php echo htmlspecialchars($invoice['invoice_number']); ?></span>
                                 </td>
-                                <td class="py-4 text-gray-300"><?php echo htmlspecialchars($invoice['company_name']); ?></td>
-                                <td class="py-4 text-gray-300"><?php echo date('d/m/Y', strtotime($invoice['invoice_date'])); ?></td>
-                                <td class="py-4 text-gray-300">
-                                    <span class="<?php echo $is_overdue ? 'text-red-400' : ''; ?>">
+                                <td><?php echo htmlspecialchars($invoice['company_name']); ?></td>
+                                <td><?php echo date('d/m/Y', strtotime($invoice['invoice_date'])); ?></td>
+                                <td>
+                                    <span class="<?php echo $is_overdue ? 'text-danger' : ''; ?>">
                                         <?php echo date('d/m/Y', strtotime($invoice['due_date'])); ?>
                                     </span>
                                 </td>
-                                <td class="py-4 text-gray-300">
-                                    <?php echo formatCurrency($invoice['total_amount'], $invoice['currency'] ?? 'BRL'); ?>
-                                </td>
-                                <td class="py-4">
-                                    <span class="inline-block px-2 py-1 text-xs rounded-full
-                                        <?php 
+                                <td><?php echo formatCurrency($invoice['total_amount'], $invoice['currency'] ?? 'BRL'); ?></td>
+                                <td>
+                                    <span class="status-badge status-<?php 
                                         if ($is_overdue) {
-                                            echo 'bg-red-600 text-white';
+                                            echo 'overdue';
                                         } else {
-                                            switch($invoice['status']) {
-                                                case 'paid': echo 'bg-green-600 text-white'; break;
-                                                case 'sent': echo 'bg-blue-600 text-white'; break;
-                                                case 'draft': echo 'bg-gray-600 text-white'; break;
-                                                case 'cancelled': echo 'bg-red-600 text-white'; break;
-                                                default: echo 'bg-gray-600 text-white';
-                                            }
+                                            echo $invoice['status'];
                                         }
                                         ?>">
                                         <?php 
@@ -595,27 +588,27 @@ include __DIR__ . '/../vision/includes/sidebar.php';
                                         ?>
                                     </span>
                                 </td>
-                                <td class="py-4">
-                                    <div class="flex gap-2">
+                                <td>
+                                    <div class="action-buttons">
                                         <button onclick="openStatusModal(<?php echo $invoice['id']; ?>, '<?php echo $invoice['status']; ?>')" 
-                                                class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm transition-colors">
+                                                class="page-btn" title="Editar Status">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <a href="view_invoice.php?id=<?php echo $invoice['id']; ?>" target="_blank"
-                                           class="bg-gray-600 hover:bg-gray-700 px-3 py-1 rounded text-sm transition-colors">
-                                            <i class="fas fa-eye"></i> Visualizar
+                                           class="page-btn" title="Visualizar">
+                                            <i class="fas fa-eye"></i>
                                         </a>
-                                        <form method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja enviar esta fatura por e-mail?')">
+                                        <form method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja enviar esta fatura por e-mail?')">
                                             <input type="hidden" name="action" value="send_invoice_email">
                                             <input type="hidden" name="invoice_id" value="<?php echo $invoice['id']; ?>">
-                                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm transition-colors">
-                                                <i class="fas fa-envelope"></i> Enviar
+                                            <button type="submit" class="page-btn" title="Enviar por E-mail">
+                                                <i class="fas fa-envelope"></i>
                                             </button>
                                         </form>
-                                        <form method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja excluir esta fatura?')">
+                                        <form method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta fatura?')">
                                             <input type="hidden" name="action" value="delete_invoice">
                                             <input type="hidden" name="invoice_id" value="<?php echo $invoice['id']; ?>">
-                                            <button type="submit" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm transition-colors">
+                                            <button type="submit" class="page-btn btn-danger" title="Excluir">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
