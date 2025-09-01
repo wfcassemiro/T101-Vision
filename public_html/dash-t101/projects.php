@@ -617,37 +617,8 @@ include __DIR__ . '/../vision/includes/sidebar.php';
         </div>
     </div>
 
-    <div class="bg-gray-800 rounded-lg p-6 mb-8">
-        <h2 class="text-xl font-semibold text-white mb-4">Estimativa de Produtividade</h2>
-
-        <?php
-        // Bloco de depuração para verificação dos projetos
-        /*
-        echo '<div class="bg-blue-600 text-white p-4 rounded-lg mb-6">';
-        echo '<h3>DEBUG: Projetos para Estimativa</h3>';
-        echo '<p>Data de hoje (timestamp): ' . $today_ts . ' (' . date('Y-m-d', $today_ts) . ')</p>';
-        if (empty($projects)) {
-            echo '<p>Nenhum projeto carregado do banco de dados.</p>';
-        } else {
-            foreach ($projects as $proj) {
-                $proj_deadline_ts = $proj['deadline'] ? strtotime($proj['deadline']) : null;
-                $is_active_status = ($proj['status'] !== 'completed' && $proj['status'] !== 'cancelled');
-                $has_future_deadline = ($proj_deadline_ts !== null && $proj_deadline_ts >= $today_ts);
-                $has_word_count = ($proj['word_count'] > 0);
-                $meets_criteria = $is_active_status && $has_future_deadline && $has_word_count;
-
-                echo '<p>--- Projeto ID: ' . $proj['id'] . ' | Título: ' . htmlspecialchars($proj['project_name']) . ' ---</p>';
-                echo '<ul class="list-disc ml-5">';
-                echo '<li>Status: ' . htmlspecialchars($proj['status']) . ' (Pendente/Em andamento? ' . ($is_active_status ? 'Sim' : 'Não') . ')</li>';
-                echo '<li>Deadline: ' . htmlspecialchars($proj['deadline']) . ' (Timestamp: ' . ($proj_deadline_ts ?: 'N/A') . ') ( >= Hoje? ' . ($has_future_deadline ? 'Sim' : 'Não') . ')</li>';
-                echo '<li>Word Count: ' . htmlspecialchars($proj['word_count']) . ' (>0? ' . ($has_word_count ? 'Sim' : 'Não') . ')</li>';
-                echo '<li>Atende aos critérios para estimativa? ' . ($meets_criteria ? 'SIM' : 'NÃO') . '</li>';
-                echo '</ul>';
-            }
-        }
-        echo '</div>';
-        */
-        ?>
+    <div class="video-card">
+        <h2><i class="fas fa-chart-bar"></i> Estimativa de Produtividade</h2>
 
         <?php
         $pending_projects_for_estimation = array_filter($projects, function($p) use ($today_ts) {
