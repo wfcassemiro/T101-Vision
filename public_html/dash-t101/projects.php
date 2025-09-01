@@ -277,77 +277,72 @@ include __DIR__ . '/../vision/includes/sidebar.php';
                     <label for="source_language"><i class="fas fa-language"></i> Idioma de Origem *</label>
                     <select name="source_language" id="source_language" required>
                     <option value="">Selecione</option>
-                    <?php foreach ($dash_config['languages'] as $langCode => $langName): ?>
-                        <option value="<?php echo $langCode; ?>" <?php echo ($edit_project && $edit_project['source_language'] == $langCode) ? 'selected' : ''; ?>>
-                            <?php echo $langName; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div>
-                <label for="target_language" class="block text-sm font-medium text-gray-300 mb-2">Idioma de Destino *</label>
-                <select name="target_language" id="target_language" required
-                        class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    <option value="">Selecione</option>
-                    <?php foreach ($dash_config['languages'] as $langCode => $langName): ?>
-                        <option value="<?php echo $langCode; ?>" <?php echo ($edit_project && $edit_project['target_language'] == $langCode) ? 'selected' : ''; ?>>
-                            <?php echo $langName; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div>
-                <label for="service_type" class="block text-sm font-medium text-gray-300 mb-2">Tipo de Serviço *</label>
-                <select name="service_type" id="service_type" required
-                        class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    <?php foreach ($dash_config['service_types'] as $typeCode => $typeName): ?>
-                        <option value="<?php echo $typeCode; ?>" <?php echo ($edit_project && $edit_project['service_type'] == $typeCode) ? 'selected' : ''; ?>>
-                            <?php echo $typeName; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div>
-                <label for="po_number" class="block text-sm font-medium text-gray-300 mb-2">Número PO (Purchase Order)</label>
-                <input type="text" name="po_number" id="po_number"
-                       value="<?php echo htmlspecialchars($edit_project['po_number'] ?? ''); ?>"
-                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-            </div>
-
-            <div>
-                <label for="word_count" class="block text-sm font-medium text-gray-300 mb-2">Contagem de Palavras</label>
-                <input type="number" name="word_count" id="word_count" min="0"
-                       value="<?php echo $edit_project['word_count'] ?? ''; ?>"
-                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"
-                       oninput="calculateTotal()"> </div>
-
-            <div>
-                <label for="rate_per_word" class="block text-sm font-medium text-gray-300 mb-2">Taxa por Palavra</label>
-                <div class="flex items-center">
-                    <select name="currency_word_rate" id="currency_word_rate" class="p-3 bg-gray-700 border border-gray-600 rounded-l-lg focus:border-purple-500 focus:outline-none text-white" style="width: 25%;">
-                        <?php foreach ($dash_config['currencies'] as $currencyCode): ?>
-                            <option value="<?php echo $currencyCode; ?>" <?php echo ($edit_project && $edit_project['currency'] == $currencyCode) ? 'selected' : ''; ?>>
-                                <?php echo $currencyCode; ?>
+                        <?php foreach ($dash_config['languages'] as $langCode => $langName): ?>
+                            <option value="<?php echo $langCode; ?>" <?php echo ($edit_project && $edit_project['source_language'] == $langCode) ? 'selected' : ''; ?>>
+                                <?php echo $langName; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <input type="number" name="rate_per_word" id="rate_per_word" min="0" step="0.0001"
-                           value="<?php echo $edit_project['rate_per_word'] ?? ''; ?>"
-                           class="flex-1 p-3 bg-gray-700 border border-gray-600 rounded-r-lg focus:border-purple-500 focus:outline-none text-white"
-                           oninput="calculateTotal()"> </div>
-            </div>
+                </div>
 
-            <input type="hidden" name="character_count" id="character_count" value="0">
-            <input type="hidden" name="rate_per_character" id="rate_per_character" value="0">
+                <div class="form-group">
+                    <label for="target_language"><i class="fas fa-language"></i> Idioma de Destino *</label>
+                    <select name="target_language" id="target_language" required>
+                        <option value="">Selecione</option>
+                        <?php foreach ($dash_config['languages'] as $langCode => $langName): ?>
+                            <option value="<?php echo $langCode; ?>" <?php echo ($edit_project && $edit_project['target_language'] == $langCode) ? 'selected' : ''; ?>>
+                                <?php echo $langName; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
+                <div class="form-group">
+                    <label for="service_type"><i class="fas fa-cogs"></i> Tipo de Serviço *</label>
+                    <select name="service_type" id="service_type" required>
+                        <?php foreach ($dash_config['service_types'] as $typeCode => $typeName): ?>
+                            <option value="<?php echo $typeCode; ?>" <?php echo ($edit_project && $edit_project['service_type'] == $typeCode) ? 'selected' : ''; ?>>
+                                <?php echo $typeName; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-            <div class="flex items-center gap-2">
-                <div>
-                    <label for="total_calculated" class="block text-sm font-medium text-gray-300 mb-2">Total Calculado</label>
-                    <input type="text" id="total_calculated" readonly
+                <div class="form-group">
+                    <label for="po_number"><i class="fas fa-receipt"></i> Número PO (Purchase Order)</label>
+                    <input type="text" name="po_number" id="po_number"
+                           value="<?php echo htmlspecialchars($edit_project['po_number'] ?? ''); ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="word_count"><i class="fas fa-sort-numeric-up"></i> Contagem de Palavras</label>
+                    <input type="number" name="word_count" id="word_count" min="0"
+                           value="<?php echo $edit_project['word_count'] ?? ''; ?>"
+                           oninput="calculateTotal()">
+                </div>
+
+                <div class="form-group">
+                    <label for="rate_per_word"><i class="fas fa-money-bill-wave"></i> Taxa por Palavra</label>
+                    <div class="input-group">
+                        <select name="currency_word_rate" id="currency_word_rate">
+                            <?php foreach ($dash_config['currencies'] as $currencyCode): ?>
+                                <option value="<?php echo $currencyCode; ?>" <?php echo ($edit_project && $edit_project['currency'] == $currencyCode) ? 'selected' : ''; ?>>
+                                    <?php echo $currencyCode; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <input type="number" name="rate_per_word" id="rate_per_word" min="0" step="0.0001"
+                               value="<?php echo $edit_project['rate_per_word'] ?? ''; ?>"
+                               oninput="calculateTotal()">
+                    </div>
+                </div>
+
+                <input type="hidden" name="character_count" id="character_count" value="0">
+                <input type="hidden" name="rate_per_character" id="rate_per_character" value="0">
+
+                <div class="form-group">
+                    <label for="total_calculated"><i class="fas fa-calculator"></i> Total Calculado</label>
+                    <input type="text" id="total_calculated" readonly>
                            class="w-full p-3 bg-gray-600 border border-gray-600 rounded-lg text-white">
                 </div>
                 <div class="flex-1">
