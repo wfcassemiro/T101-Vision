@@ -447,16 +447,17 @@ include __DIR__ . '/../vision/includes/sidebar.php';
                         <?php echo $end_date_label; ?>
                     </span>
 
-                    <div class="absolute top-0 bottom-0 bg-black" style="left: <?php echo $today_pos_on_global_line_percent; ?>%; transform: translateX(-50%); width: 2px; z-index: 10;"></div>
-
-                    <span class="absolute text-black text-xs font-semibold select-none" style="left: <?php echo $today_pos_on_global_line_percent; ?>%; transform: translateX(5px); white-space: nowrap;">
-                        HOJE (<?php echo $today_label; ?>)
-                    </span>
+                    <div class="timeline-today" style="left: <?php echo $today_pos_on_global_line_percent; ?>%;">
+                        <span class="timeline-today-label">HOJE (<?php echo $today_label; ?>)</span>
+                    </div>
                 </div>
             </div>
             
             <?php if (empty($projects)): ?>
-                <p class="text-gray-400 text-center py-4">Nenhum projeto para exibir na linha do tempo.</p>
+                <div class="alert-warning">
+                    <i class="fas fa-info-circle"></i>
+                    Nenhum projeto para exibir na linha do tempo.
+                </div>
             <?php else: ?>
                 <?php
                 // Função para interpolar cor entre verde e vermelho
