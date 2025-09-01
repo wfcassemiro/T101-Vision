@@ -213,7 +213,9 @@ $max_display_date = strtotime(date('Y-m-d', strtotime("+" . ($display_range_days
 // A posição percentual do "HOJE" na linha do tempo geral de 20 dias (fixa)
 $today_pos_on_global_line_percent = ($today_display_offset_days / $display_range_days) * 100;
 
-include __DIR__ . '/../includes/header.php';
+include __DIR__ . '/../vision/includes/head.php';
+include __DIR__ . '/../vision/includes/header.php';
+include __DIR__ . '/../vision/includes/sidebar.php';
 ?>
 
 <div class="container mx-auto px-4 py-8">
