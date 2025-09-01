@@ -623,24 +623,62 @@ include __DIR__ . '/../vision/includes/sidebar.php';
     </div>
 </div>
 
-<div id="statusModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-gray-800 rounded-lg p-6 w-full max-w-md">
-            <h3 class="text-lg font-semibold text-white mb-4">Atualizar Status da Fatura</h3>
+<!-- Status Modal -->
+<div id="statusModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-edit"></i> Atualizar Status da Fatura</h3>
+            <button type="button" onclick="closeStatusModal()" class="close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form method="POST" id="statusForm">
+            <input type="hidden" name="action" value="update_status">
+            <input type="hidden" name="invoice_id" id="modal_invoice_id">
             
-            <form method="POST" id="statusForm">
-                <input type="hidden" name="action" value="update_status">
-                <input type="hidden" name="invoice_id" id="modal_invoice_id">
+            <div class="form-group">
+                <label for="modal_status"><i class="fas fa-flag"></i> Status</label>
+                <select name="status" id="modal_status" required onchange="togglePaymentFields()">
+                    <option value="draft">Rascunho</option>
+                    <option value="sent">Enviada</option>
+                    <option value="paid">Paga</option>
+                    <option value="cancelled">Cancelada</option>
+                </select>
+            </div>
+            
+            <div id="payment_fields" style="display: none;">
+                <div class="form-group">
+                    <label for="payment_date"><i class="fas fa-calendar"></i> Data do Pagamento</label>
+                    <input type="date" name="payment_date" id="payment_date">
+                </div>
                 
-                <div class="mb-4">
-                    <label for="modal_status" class="block text-sm font-medium text-gray-300 mb-2">Status</label>
-                    <select name="status" id="modal_status" required
-                            class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"
-                            onchange="togglePaymentFields()">
-                        <option value="draft">Rascunho</option>
-                        <option value="sent">Enviada</option>
-                        <option value="paid">Paga</option>
-                        <option value="cancelled">Cancelada</option>
+                <div class="form-group">
+                    <label for="payment_method"><i class="fas fa-credit-card"></i> Método de Pagamento</label>
+                    <select name="payment_method" id="payment_method">
+                        <option value="">Selecione...</option>
+                        <option value="bank_transfer">Transferência Bancária</option>
+                        <option value="credit_card">Cartão de Crédito</option>
+                        <option value="debit_card">Cartão de Débito</option>
+                        <option value="pix">PIX</option>
+                        <option value="check">Cheque</option>
+                        <option value="cash">Dinheiro</option>
+                        <option value="other">Outro</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="cta-btn">
+                    <i class="fas fa-save"></i> Atualizar Status
+                </button>
+                <button type="button" onclick="closeStatusModal()" class="page-btn">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>d">Cancelada</option>
                     </select>
                 </div>
                 
