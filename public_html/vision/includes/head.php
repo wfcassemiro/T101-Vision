@@ -7,7 +7,7 @@
   <meta name="description" content="<?php echo isset($page_description) ? $page_description : 'Plataforma de streaming educacional para profissionais de tradução, interpretação e revisão. Quase 400 palestras especializadas.'; ?>">
 
   <!-- CSS principal Vision -->
-  <link rel="stylesheet" href="/vision/assets/css/style.css?v=14">
+  <link rel="stylesheet" href="<?php echo str_repeat('../', substr_count(trim($_SERVER['REQUEST_URI'], '/'), '/') - substr_count(trim($_SERVER['DOCUMENT_ROOT'], '/'), '/')); ?>vision/assets/css/style.css?v=14">
 
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -16,6 +16,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
   <!-- JS principal Vision -->
-  <script src="/vision/assets/js/main.js?v=3" defer></script>
+  <script src="<?php echo str_repeat('../', substr_count(trim($_SERVER['REQUEST_URI'], '/'), '/') - substr_count(trim($_SERVER['DOCUMENT_ROOT'], '/'), '/')); ?>vision/assets/js/main.js?v=3" defer></script>
 </head>
 <body class="with-sidebar">
