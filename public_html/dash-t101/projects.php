@@ -392,60 +392,58 @@ include __DIR__ . '/../vision/includes/sidebar.php';
                 <div class="form-group">
                     <label for="start_date"><i class="fas fa-calendar-plus"></i> Data de Início</label>
                     <input type="date" name="start_date" id="start_date"
-                       value="<?php echo $edit_project['start_date'] ?? ''; ?>"
-                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
+                           value="<?php echo $edit_project['start_date'] ?? ''; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="deadline"><i class="fas fa-calendar-check"></i> Prazo de Entrega</label>
+                    <input type="date" name="deadline" id="deadline"
+                           value="<?php echo $edit_project['deadline'] ?? ''; ?>">
+                </div>
+
+                <div class="form-group form-group-wide">
+                    <label for="project_description"><i class="fas fa-file-alt"></i> Descrição do Projeto</label>
+                    <textarea name="project_description" id="project_description" rows="3"><?php echo htmlspecialchars($edit_project['project_description'] ?? ''); ?></textarea>
+                </div>
+
+                <div class="form-group form-group-wide">
+                    <label for="notes"><i class="fas fa-sticky-note"></i> Observações</label>
+                    <textarea name="notes" id="notes" rows="3"><?php echo htmlspecialchars($edit_project['notes'] ?? ''); ?></textarea>
+                </div>
             </div>
 
-            <div>
-                <label for="deadline" class="block text-sm font-medium text-gray-300 mb-2">Prazo de Entrega</label>
-                <input type="date" name="deadline" id="deadline"
-                       value="<?php echo $edit_project['deadline'] ?? ''; ?>"
-                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-            </div>
-
-            <div class="lg:col-span-3">
-                <label for="project_description" class="block text-sm font-medium text-gray-300 mb-2">Descrição do Projeto</label>
-                <textarea name="project_description" id="project_description" rows="3"
-                          class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"><?php echo htmlspecialchars($edit_project['project_description'] ?? ''); ?></textarea>
-            </div>
-
-            <div class="lg:col-span-3">
-                <label for="notes" class="block text-sm font-medium text-gray-300 mb-2">Observações</label>
-                <textarea name="notes" id="notes" rows="3"
-                          class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"><?php echo htmlspecialchars($edit_project['notes'] ?? ''); ?></textarea>
-            </div>
-
-            <div class="lg:col-span-3 flex gap-4">
-                <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg transition-colors text-white">
+            <div class="form-actions">
+                <button type="submit" class="cta-btn">
+                    <i class="fas fa-<?php echo $edit_project ? 'save' : 'plus'; ?>"></i>
                     <?php echo $edit_project ? 'Atualizar Projeto' : 'Adicionar Projeto'; ?>
                 </button>
                 <?php if ($edit_project): ?>
-                    <a href="projects.php" class="bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded-lg transition-colors text-white">
-                        Cancelar
+                    <a href="projects.php" class="page-btn">
+                        <i class="fas fa-times"></i> Cancelar
                     </a>
                 <?php endif; ?>
             </div>
         </form>
     </div>
 
-    <div class="bg-gray-800 rounded-lg p-6 mb-8">
-        <h2 class="text-xl font-semibold text-white mb-4">Linha do Tempo dos Projetos</h2>
-        <div class="space-y-4">
-            <div class="flex items-center text-sm mb-4">
-                <div class="w-1/4 pr-4 text-gray-300 truncate">
-                    <span class="font-semibold text-white">Projetos</span>
+    <div class="video-card">
+        <h2><i class="fas fa-chart-line"></i> Linha do Tempo dos Projetos</h2>
+        <div class="timeline-container">
+            <div class="timeline-header">
+                <div class="timeline-label">
+                    <span class="timeline-title">Projetos</span>
                 </div>
-                <div class="w-3/4 relative h-4 bg-white rounded-full flex items-center">
+                <div class="timeline-bar">
                     <?php
                     $start_date_label = date('d/m/Y', $min_display_date);
                     $end_date_label = date('d/m/Y', $max_display_date);
                     $today_label = date('d/m/Y', $today_ts);
                     ?>
-                    <span class="absolute left-2 text-black text-xs select-none" style="top: 50%; transform: translateY(-50%);">
+                    <span class="timeline-date timeline-date-start">
                         <?php echo $start_date_label; ?>
                     </span>
 
-                    <span class="absolute right-2 text-black text-xs select-none" style="top: 50%; transform: translateY(-50%);">
+                    <span class="timeline-date timeline-date-end">
                         <?php echo $end_date_label; ?>
                     </span>
 
