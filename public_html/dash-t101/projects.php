@@ -818,109 +818,25 @@ include __DIR__ . '/../vision/includes/sidebar.php';
         <?php endif; ?>
     </div>
 </div>
-                                        break;
-                                    case 'pending':
-                                        echo 'bg-yellow-600 text-white';
-                                        break;
-                                    case 'on_hold':
-                                        echo 'bg-orange-600 text-white';
-                                        break;
-                                    case 'cancelled':
-                                        echo 'bg-red-600 text-white';
-                                        break;
-                                    default:
-                                        echo 'bg-gray-600 text-white';
-                                }
-                                ?>">
-                                    <?php
-                                    $status_labels = [
-                                        'pending' => 'Pendente',
-                                        'in_progress' => 'Em Andamento',
-                                        'completed' => 'Concluído',
-                                        'cancelled' => 'Cancelado',
-                                        'on_hold' => 'Pausado'
-                                    ];
-                                    echo $status_labels[$project['status']] ?? $project['status'];
-                                    ?>
-                                </span>
-                            </td>
-                            <td class="py-4 text-gray-300">
-                                <?php echo formatCurrency($project['total_amount'], $project['currency'] ?? 'BRL'); ?>
-                            </td>
-                            <td class="py-4 text-gray-300">
-                                <?php if ($project['deadline']): ?>
-                                    <?php echo date('d/m/Y', strtotime($project['deadline'])); ?>
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td>
-                            <td class="py-4">
-                                <div class="flex gap-2">
-                                    <a href="?edit=<?php echo $project['id']; ?>"
-                                       class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm transition-colors">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <?php if ($project['status'] != 'completed'): ?>
-                                        <form method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja marcar este projeto como concluído?')">
-                                            <input type="hidden" name="action" value="complete_project">
-                                            <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
-                                            <button type="submit" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm transition-colors">
-                                                <i class="fas fa-check-circle"></i> Concluir
-                                            </button>
-                                        </form>
-                                    <?php endif; ?>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja gerar uma fatura para este projeto? Isso criará uma nova fatura.')">
-                                        <input type="hidden" name="action" value="generate_invoice">
-                                        <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
-                                        <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm transition-colors">
-                                            <i class="fas fa-file-invoice"></i> Gerar Fatura
-                                        </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja excluir este projeto?')">
-                                        <input type="hidden" name="action" value="delete_project">
-                                        <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
-                                        <button type="submit" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm transition-colors">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php endif; ?>
-    </div>
-</div>
-
 <script>
 // Referências aos campos do formulário
 const wordCountInput = document.getElementById('word_count');
 const ratePerWordInput = document.getElementById('rate_per_word');
-// Removido charCountInput e ratePerCharInput
 const totalCalculatedInput = document.getElementById('total_calculated');
 const negotiatedAmountInput = document.getElementById('negotiated_amount');
 const currencyWordRateSelect = document.getElementById('currency_word_rate');
-// Removido currencyCharRateSelect
 const currencyNegotiatedSelect = document.getElementById('currency_negotiated');
 const clientIdSelect = document.getElementById('client_id');
 
 function calculateTotal() {
     const wordCount = parseFloat(wordCountInput.value) || 0;
     const ratePerWord = parseFloat(ratePerWordInput.value) || 0;
-    // characterCount e ratePerCharacter não são mais lidos do formulário
-    const characterCount = 0; 
-    const ratePerCharacter = 0;
-
-    const wordTotal = wordCount * ratePerWord;
-    const charTotal = characterCount * ratePerCharacter; // Será 0
-    let total = wordTotal + charTotal;
+    const total = wordCount * ratePerWord;
 
     totalCalculatedInput.value = formatCurrencyForDisplay(total, currencyWordRateSelect.value);
 }
 
-// Helper para formatar moeda no JS (para exibir no total_display)
+// Helper para formatar moeda no JS
 function formatCurrencyForDisplay(amount, currency) {
     if (isNaN(amount)) {
         amount = 0;
@@ -937,13 +853,8 @@ function formatCurrencyForDisplay(amount, currency) {
     }
 }
 
-// Função para desabilitar campos com base na entrada (Simplificada sem character_count)
 function handleRateInput() {
-    // A lógica de desabilitar/habilitar campos de palavras/caracteres não é mais necessária
-    // se apenas um tipo de contagem (palavras) for usado.
-    // Garante que o total é sempre recalculado.
     calculateTotal(); 
-    // Sincroniza a moeda da taxa com a moeda negociada se a negociada estiver vazia
     if (negotiatedAmountInput.value === '') {
         currencyNegotiatedSelect.value = currencyWordRateSelect.value;
     }
@@ -955,22 +866,17 @@ clientIdSelect.addEventListener('change', function () {
     const defaultCurrency = selectedOption.dataset.currency;
     if (defaultCurrency) {
         currencyWordRateSelect.value = defaultCurrency;
-        // currencyCharRateSelect removido
         if (negotiatedAmountInput.value === '') {
             currencyNegotiatedSelect.value = defaultCurrency;
         }
     }
-    // Chame handleRateInput para garantir que os campos corretos sejam desabilitados/habilitados
-    // com base no estado atual após a mudança do cliente.
-    handleRateInput(); // Chamada simplificada
+    handleRateInput();
 });
 
-// Sincronizar a moeda negociada com a moeda das taxas se a negociada for alterada
 function updateCurrencyForNegotiated() {
     if (negotiatedAmountInput.value !== '') {
         wordCountInput.disabled = true;
         ratePerWordInput.disabled = true;
-        // Campos de caracteres não existem mais para desabilitar
     } else {
         wordCountInput.disabled = false;
         ratePerWordInput.disabled = false;
@@ -984,16 +890,13 @@ function updateCurrencyForNegotiated() {
 }
 negotiatedAmountInput.addEventListener('input', updateCurrencyForNegotiated);
 
-
-// Chamar calculateTotal no carregamento da página e se estiver editando para preencher o campo
+// Inicialização
 document.addEventListener('DOMContentLoaded', function () {
     calculateTotal();
     if (negotiatedAmountInput.value !== '') {
         wordCountInput.disabled = true;
         ratePerWordInput.disabled = true;
-        // Campos de caracteres não existem mais para desabilitar
     } else {
-        // Chamada simplificada
         handleRateInput(); 
     }
 
@@ -1002,7 +905,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const defaultCurrency = selectedOption.dataset.currency;
         if (defaultCurrency) {
             currencyWordRateSelect.value = defaultCurrency;
-            // currencyCharRateSelect removido
             if (!negotiatedAmountInput.value) {
                 currencyNegotiatedSelect.value = defaultCurrency;
             }
@@ -1011,4 +913,4 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+<?php include __DIR__ . '/../vision/includes/footer.php'; ?>
