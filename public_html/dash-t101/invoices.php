@@ -318,7 +318,9 @@ $invoices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Obter configurações do usuário
 $user_settings = getUserSettings($user_id);
 
-include __DIR__ . '/../includes/header.php';
+include __DIR__ . '/../vision/includes/head.php';
+include __DIR__ . '/../vision/includes/header.php';
+include __DIR__ . '/../vision/includes/sidebar.php';
 ?>
 
 <div class="container mx-auto px-4 py-8">
