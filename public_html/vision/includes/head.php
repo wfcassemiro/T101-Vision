@@ -16,6 +16,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
   <!-- JS principal Vision -->
-  <script src="vision/assets/js/main.js?v=3" defer></script>
+  <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/vision/assets/js/main.js?v=3" defer></script>
 </head>
 <body class="with-sidebar">
