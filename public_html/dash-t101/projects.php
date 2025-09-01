@@ -580,34 +580,34 @@ include __DIR__ . '/../vision/includes/sidebar.php';
                     $label_left_pos = max(0, min(100, $label_left_pos));
 
                     ?>
-                    <div class="flex items-center text-sm">
-                        <div class="w-1/4 pr-4 text-gray-300 truncate">
-                            <span class="font-semibold text-white"><?php echo htmlspecialchars($project['project_name']); ?></span> - <?php echo htmlspecialchars($project['company_name']); ?>
+                    <div class="timeline-project">
+                        <div class="timeline-project-info">
+                            <span class="project-name"><?php echo htmlspecialchars($project['project_name']); ?></span>
+                            <span class="project-client"> - <?php echo htmlspecialchars($project['company_name']); ?></span>
                         </div>
-                        <div class="w-3/4 relative h-4 bg-gray-700 rounded-full flex items-center overflow-hidden">
+                        <div class="timeline-project-bar">
                             <?php if ($color_width > 0): ?>
-                                <div class="absolute h-full rounded-l-full"
+                                <div class="timeline-progress timeline-progress-color"
                                      style="left: <?php echo $project_display_start_percent; ?>%;
                                             width: <?php echo $color_width; ?>%;
                                             background-image: <?php echo $color_gradient_css; ?>;">
                                 </div>
                             <?php endif; ?>
                             <?php if ($gray_width > 0): ?>
-                                <div class="absolute h-full rounded-r-full"
+                                <div class="timeline-progress timeline-progress-gray"
                                      style="left: <?php echo $project_display_start_percent + $color_width; ?>%;
-                                            width: <?php echo $gray_width; ?>%;
-                                            background-color: #a0a0a0;">
+                                            width: <?php echo $gray_width; ?>%;">
                                 </div>
                             <?php endif; ?>
 
                             <?php if ($today_pos_percent_on_bar >= $project_display_start_percent && $today_pos_percent_on_bar <= $project_display_end_percent): ?>
-                            <div class="absolute top-0 bottom-0 bg-purple-400"
-                                 style="left: <?php echo $today_pos_percent_on_bar; ?>%; transform: translateX(-50%); width: 2px; z-index: 10;">
+                            <div class="timeline-today-marker"
+                                 style="left: <?php echo $today_pos_percent_on_bar; ?>%;">
                             </div>
                             <?php endif; ?>
 
-                            <span class="absolute text-xs font-bold text-white"
-                                  style="left: <?php echo $label_left_pos; ?>%; top: 50%; transform: translate(<?php echo $label_transform_x; ?>, -50%); white-space: nowrap;">
+                            <span class="timeline-deadline-label"
+                                  style="left: <?php echo $label_left_pos; ?>%; transform: translate(<?php echo $label_transform_x; ?>, -50%);">
                                 <?php echo $display_deadline_date_label; ?>
                             </span>
                         </div>
