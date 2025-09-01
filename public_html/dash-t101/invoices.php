@@ -678,44 +678,6 @@ include __DIR__ . '/../vision/includes/sidebar.php';
             </div>
         </form>
     </div>
-</div>d">Cancelada</option>
-                    </select>
-                </div>
-                
-                <div id="payment_fields" class="hidden">
-                    <div class="mb-4">
-                        <label for="payment_date" class="block text-sm font-medium text-gray-300 mb-2">Data do Pagamento</label>
-                        <input type="date" name="payment_date" id="payment_date"
-                               value="<?php echo date('Y-m-d'); ?>"
-                               class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label for="payment_method" class="block text-sm font-medium text-gray-300 mb-2">Método de Pagamento</label>
-                        <select name="payment_method" id="payment_method"
-                                class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                            <option value="">Selecione</option>
-                            <option value="Transferência Bancária">Transferência Bancária</option>
-                            <option value="PIX">PIX</option>
-                            <option value="Cartão de Crédito">Cartão de Crédito</option>
-                            <option value="Boleto">Boleto</option>
-                            <option value="Dinheiro">Dinheiro</option>
-                            <option value="Outro">Outro</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="flex gap-4">
-                    <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors text-white">
-                        Atualizar
-                    </button>
-                    <button type="button" onclick="closeStatusModal()" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors text-white">
-                        Cancelar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 </div>
 
 <script>
