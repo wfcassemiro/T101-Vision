@@ -696,31 +696,34 @@ include __DIR__ . '/../vision/includes/sidebar.php';
         <?php endif; ?>
     </div>
 
-    <div class="bg-gray-800 rounded-lg p-6">
-        <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
-            <h2 class="text-xl font-semibold text-white">Lista de Projetos</h2>
+    <div class="video-card">
+        <div class="card-header">
+            <h2><i class="fas fa-list"></i> Lista de Projetos</h2>
 
-            <form method="GET" class="flex gap-2">
-                <input type="text" name="search" placeholder="Buscar projetos..."
-                       value="<?php echo htmlspecialchars($search); ?>"
-                       class="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                <select name="status" class="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white">
-                    <option value="">Todos os status</option>
-                    <?php foreach ($dash_config['project_statuses'] as $statusCode => $statusName): ?>
-                        <option value="<?php echo $statusCode; ?>" <?php echo ($status_filter == $statusCode) ? 'selected' : ''; ?>>
-                            <?php echo $statusName; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
-                    <i class="fas fa-search"></i>
-                </button>
-                <?php if ($search || $status_filter): ?>
-                    <a href="projects.php" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">
-                        <i class="fas fa-times"></i>
-                    </a>
-                <?php endif; ?>
-            </form>
+            <div class="search-filters">
+                <form method="GET" class="search-form">
+                    <div class="search-group">
+                        <input type="text" name="search" placeholder="Buscar projetos..."
+                               value="<?php echo htmlspecialchars($search); ?>">
+                        <select name="status">
+                            <option value="">Todos os status</option>
+                            <?php foreach ($dash_config['project_statuses'] as $statusCode => $statusName): ?>
+                                <option value="<?php echo $statusCode; ?>" <?php echo ($status_filter == $statusCode) ? 'selected' : ''; ?>>
+                                    <?php echo $statusName; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button type="submit" class="page-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <?php if ($search || $status_filter): ?>
+                            <a href="projects.php" class="page-btn">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <?php if (empty($projects)): ?>
